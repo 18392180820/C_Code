@@ -977,6 +977,7 @@ void transfer(void)
 	printf("len = %ld\n", strlen(dev_mac));
 }
 
+#if 1
 void main(void)
 {
 	
@@ -1013,4 +1014,24 @@ void main(void)
 		sleep(1);		
 	}
 }
+# else
+void main(void)
+{
+	uint hhh = -2;
+	MPrint("hhh = %u", hhh);
+	hhh = -1;
+	MPrint("hhh = %u", hhh);
+    hhh = -2000;
+	MPrint("hhh = %u", hhh);
+	
+	if(-2000 == hhh)
+	{
+		MPrint("hhh");
+	}
+	else
+	{
+		MPrint("tmd");
+	}
+}
 
+#endif

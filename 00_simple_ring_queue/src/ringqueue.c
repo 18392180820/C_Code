@@ -68,7 +68,7 @@ uint get_free_queue_ring_size(ring_queue* ring)			//获取剩余环形队列长�
 	return (ring->size - ring->length); 
 }
 
-uint write_queue_ring_op(ring_queue* ring, uchar* buf, uint len)		//写入队列数据
+static uint ring_queue_write_error_check(ring_queue* ring, uchar* buf, uint len)
 {
 	if(NULL == ring) 
 	{
@@ -87,7 +87,20 @@ uint write_queue_ring_op(ring_queue* ring, uchar* buf, uint len)		//写入队列
 		MPrint("Ring_Full");
 		return RING_WRITE_RING_FULL;
 	}
+
+	return RING_WRITE_OK;
+}
+
+
+uint write_queue_ring_op(ring_queue* ring, uchar* buf, uint len)		//写入队列数据
+{
+	uint res = ring_queue_write_error_check(ring, buf, len);
 	
+	if(RING_WRITE_OK != res)
+	{
+		return res;
+	}
+		
 	/* 依据具体情况，选择写入最大长度、还是不写入，目前是不写入 */
 	if(len > (ring->size - ring->length))			
 	{	
@@ -126,7 +139,8 @@ uint write_queue_ring_op(ring_queue* ring, uchar* buf, uint len)		//写入队列
 	return len;
 }
 
-uint read_queue_ring_op(ring_queue* ring, uchar* buf, uint len)		//读出队列数据
+
+static uint ring_queue_read_error_check(ring_queue* ring, uchar* buf, uint len)
 {
 	if(NULL == ring) 
 	{
@@ -144,6 +158,18 @@ uint read_queue_ring_op(ring_queue* ring, uchar* buf, uint len)		//读出队列�
 	{
 		MPrint("Ring_Empty");
 		return RING_READ_RING_EMPTY;
+	}
+
+	return RING_READ_OK;
+}
+
+uint read_queue_ring_op(ring_queue* ring, uchar* buf, uint len)		//读出队列数据
+{
+	uint res = ring_queue_read_error_check(ring, buf, len);
+	
+	if(RING_READ_OK != res)
+	{
+		return res;
 	}
 
 	/* 依据具体情况，选择读取最大长度、还是不读取，目前是不读取 */
@@ -178,6 +204,8 @@ uint read_queue_ring_op(ring_queue* ring, uchar* buf, uint len)		//读出队列�
 	
 	MPrint("Read Buffer = %s", buf);
 	MPrint("Ring Length = %d", ring->length);
+
+	return len;
 }
 
 uint read_all_queue_ring_op(ring_queue* ring)			//读出现有队列所有数据
@@ -212,6 +240,7 @@ uint read_all_queue_ring_op(ring_queue* ring)			//读出现有队列所有数据
 	}
 
 	MPrint("Ring_All_Buffer = %s", p_buffer);
-	
+
+	return ring->length;
 }
 
