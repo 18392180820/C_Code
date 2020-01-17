@@ -1017,7 +1017,7 @@ void main(void)
 # else
 void main(void)
 {
-	uint hhh = -2;
+	int hhh = -2;
 	MPrint("hhh = %u", hhh);
 	hhh = -1;
 	MPrint("hhh = %u", hhh);
@@ -1031,6 +1031,15 @@ void main(void)
 	else
 	{
 		MPrint("tmd");
+	}
+
+	if(4294965296 == hhh)
+	{
+		MPrint("hhhhhh");
+	}
+	else
+	{
+		MPrint("tmdtmd");
 	}
 }
 
