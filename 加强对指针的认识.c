@@ -11,6 +11,33 @@ typedef void * handle_t;
 
 static handle_t hand;
 
+//check handle address
+void handle_address_check(handle_t* hand_in)
+{
+	if(hand_in)
+	{
+		printf("handler address = %p\n", hand_in);  
+	}
+	else
+	{
+		printf("handler address\n");
+	}
+}
+
+//check handle null
+void handle_null_check(handle_t hand_in)
+{
+	if(hand_in)
+	{
+		printf("handler != NULL\n");  
+	}
+	else
+	{
+		printf("handler = NULL\n");
+	}
+}
+
+
 void main(void)
 {
 	char* data_buffer = (char*)malloc(1024);
@@ -26,14 +53,11 @@ void main(void)
 	free(data_buffer);
 	data_buffer = NULL;
 
-	if(hand)
-	{
-		printf("hanle != NULL");
-	}
-	else
-	{
+	handle_address_check(&hand);
+	printf("%p\n",&hand);			//check again
 
-		printf("hanle = NULL");   //this
-	}
+
+	handle_null_check(hand);
 
 }
+
