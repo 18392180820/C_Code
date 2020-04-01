@@ -1,15 +1,30 @@
 
+
 #include "fotile_debug.h"
+
+
+
+sem_t debug_sem;		//declare debug_sem 
+
+
 
 void main(void)
 {	
-	
-	create_debug_adb_handler();
-	create_debug_handler();
+	create_debug_handler((int)5);
+
+	CONSOLE_DBG_E("THIS IS END");
+
 }
 
 
+
+
+
+
+
+
 #if 0
+
 typedef struct
 {
 	char e[20];
@@ -47,3 +62,8 @@ void main(void)
 	//create_debug_adb_handler();
 }
 #endif
+
+
+
+
+

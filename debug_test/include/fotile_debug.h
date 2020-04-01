@@ -18,6 +18,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <semaphore.h>
 
 #ifdef  __cplusplus
 extern "C" {
@@ -151,7 +152,7 @@ extern "C" {
 /**
 * @ Description: start debug cycle
 */
-extern int create_debug_handler(void);
+extern int create_debug_handler(int interval);
 extern int create_debug_adb_handler(void);
 
 /************************ END OF USER CODE ************************/

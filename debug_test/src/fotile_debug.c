@@ -327,20 +327,23 @@ int create_debug_adb_handler(void)
 		return DEBUG_ERROR;
 	}
 	
-	pthread_join(id , NULL);			//in lora gateway code, needed to be shielded ???
 	CONSOLE_DBG_I("--- create debug_adb_handler succ ---");
+	pthread_join(id , NULL);			//in lora gateway code, needed to be shielded ???
+	
 
 	return DEBUG_OK;
 		
 }
 
 /**
-* @ Description: present system information per 30 seconds
+* @ Description: present system information per interval seconds
 * @ input:  interval
 * @ return: void
 */
 void* debug_cycle(void* interval)
 {
+	CONSOLE_DBG_I("------ start debug cycle ------");
+	
 	int *p = (int*)interval;
 	
 	while(GATEWAY_DEBUG_SWITCH)
@@ -360,10 +363,14 @@ void* debug_cycle(void* interval)
 	}
 }
 
-int create_debug_handler(void)
+/**
+* @ Description: start debug thread, present information every interval seconds
+* @ input:  interval(seconds)
+* @ return: void
+*/
+int create_debug_handler(int interval)
 {
 	pthread_t id;
-	int interval = 30; 
 	
 	if (0 != pthread_create(&id, NULL, (void*)debug_cycle, (void*)&interval))
 	{
@@ -372,7 +379,7 @@ int create_debug_handler(void)
 		return DEBUG_ERROR;
 	}
 	
-	CONSOLE_DBG_I("------ start debug cycle ------");
+	CONSOLE_DBG_I("------ create create console_debug_handler success ------");
 
 	pthread_join(id , NULL);
 	
