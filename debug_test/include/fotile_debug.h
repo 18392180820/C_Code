@@ -52,7 +52,8 @@ extern "C" {
  ************   choose whether gateway in debug mode or not   ****************
  *****************************************************************************/
 #define GATEWAY_DEBUG_SWITCH			(1)
-#define DUBUG_EXIT						"exit"
+#define DUBUG_ENTER						"enter\n"
+#define DUBUG_EXIT						"exit\n"
 /***********************   define debug cmd/info prefix   *************************/
 #define DEBUG_CMD_PREFIX				"cmd"
 #define DEBUG_INFO_PREFIX				"info"    
@@ -152,8 +153,9 @@ extern "C" {
 /**
 * @ Description: start debug cycle
 */
-extern int create_debug_handler(int interval);
-extern int create_debug_adb_handler(void);
+//extern int create_debug_handler(int interval);
+//extern int create_debug_adb_handler(void);
+void wait_signal_for_adb_debug_cycle(char* order, int order_len);
 
 /************************ END OF USER CODE ************************/
 #ifdef __cplusplus

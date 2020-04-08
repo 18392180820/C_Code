@@ -20,6 +20,11 @@
 #define FOTILE_CMD_ARGS_LEN 		(64)
 
 /******************************************************
+*				 Global Variables
+******************************************************/
+sem_t 		adb_sem;     //adb_debug semaphore
+
+/******************************************************
 *				 Function Define
 ******************************************************/
 void fotile_cmd_debug_op(int argc, char argv[][64])
@@ -300,7 +305,8 @@ void* debug_adb_cycle(void* parm)
 
 		char* s = fgets(buf, 1024, stdin);
 
-		if (32 == buf[0]) //32 related to blank space, push button with blank space+enter to exit cycle
+		//由于fgets会把回车(\n)也读入，所以判断时就变成了"exit\n"
+		if (0 == strcmp(buf, DUBUG_EXIT))
 		{
 			CONSOLE_DBG_W("exit debug cycle");
 			break;
@@ -330,10 +336,10 @@ int create_debug_adb_handler(void)
 	CONSOLE_DBG_I("--- create debug_adb_handler succ ---");
 	pthread_join(id , NULL);			//in lora gateway code, needed to be shielded ???
 	
-
 	return DEBUG_OK;
 		
 }
+
 
 /**
 * @ Description: present system information per interval seconds
@@ -387,3 +393,104 @@ int create_debug_handler(int interval)
 	
 }
 
+
+
+#if 1 
+void* wait_signal_for_adb_debug(void *msg)
+{
+	
+	int 		res = -1;
+	pthread_t 	adb_thread;
+	char        buf[1024];
+	
+	res = sem_init(&adb_sem, 0, 0); 		//init adb_sem
+
+	if(res == -1)
+	{
+		CONSOLE_DBG_E("adb_sem intitialization failure");
+		exit(EXIT_FAILURE);
+	}
+
+	while(GATEWAY_DEBUG_SWITCH)
+	{
+		memset(buf, 0x00, sizeof(buf));
+
+		
+		char* s = fgets(buf, 1024, stdin);
+
+		//由于fgets会把回车(\n)也读入
+		if(0 == strcmp(buf, (const char*)msg))
+		{
+			sem_post(&adb_sem);			
+		}
+	
+		
+		//把信号量减1
+		sem_wait(&adb_sem);
+
+
+	}
+	
+	//退出线程
+	pthread_exit(NULL);
+}
+
+
+
+void wait_signal_for_adb_debug_cycle(char* order, int order_len)
+{	
+	char        buf[1024];
+	char        enter_order[128];
+	int         debug_flag = 0;    //0-wait for debug signal;   1-in debug mode
+
+	memset(enter_order, 0x00, sizeof(order));
+	
+	if(NULL == enter_order)
+	{
+		memcpy(enter_order, DUBUG_ENTER, strlen(DUBUG_ENTER));
+	} 
+	else
+	{
+		memcpy(enter_order, (const char*)order, order_len);
+	}
+	
+	CONSOLE_DBG_W("### please input enter to start debug cycle ###");
+	
+	while(GATEWAY_DEBUG_SWITCH)
+	{
+		memset(buf, 0x00, sizeof(buf));
+		char* s = fgets(buf, 1024, stdin);		//fgets会把回车(\n)也读入
+
+		CONSOLE_DBG_E("fgets = %s", s);
+		
+		if(0 == debug_flag)
+		{
+			if(0 == strcmp(buf, DUBUG_ENTER))
+			{
+				debug_flag = 1;
+				CONSOLE_DBG_W("### enter debug cycle");
+			}
+
+		}
+		else if(1 == debug_flag)
+		{
+			if (0 == strcmp(buf, DUBUG_EXIT))
+			{
+				debug_flag = 0;
+				CONSOLE_DBG_W("### exit debug cycle");
+			}
+
+
+			process_debug_input_op(buf);
+		}
+		
+		/* delay 50ms */
+		usleep(DEBUG_INPUT_DELAY);
+
+	}
+	
+}
+
+
+
+#endif
