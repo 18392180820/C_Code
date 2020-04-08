@@ -358,6 +358,21 @@ unsigned int get_big_end_data(const unsigned char* hex, const int offset, const 
 	return value;
 }
 
+
+unsigned int get_bit_data(const unsigned char value, const unsigned int bitoffset, const unsigned int bitlen)
+{
+
+	if( 8 < (bitoffset + bitlen ))
+	{
+		MPrint("Error Parameter in");
+		return 0xFF;
+	}	
+
+	return (value>>bitoffset)&(0xff>>(8-bitlen));
+}
+
+
+
 int build_json(const char* payload, OUT cJSON* result)
 {
 	int i = 0;
@@ -387,8 +402,24 @@ int build_json(const char* payload, OUT cJSON* result)
 					{
 						if (len <= 4)
 						{
-							unsigned int value = get_big_end_data((const unsigned char*)payload, offset, len);
-							cJSON_AddNumberToObject(result, attribute, value);
+							//识别到没有子属性
+							if( (NULL == cJSON_GetObjectItem(payload_describe, "bit_offset")) || (NULL == cJSON_GetObjectItem(payload_describe, "bit_len")) )
+							{
+								unsigned int value = get_big_end_data((const unsigned char*)payload, offset, len);
+								cJSON_AddNumberToObject(result, attribute, value);
+							}
+							else	//识别到有子属性
+							{
+								unsigned int bit_offset = cJSON_GetObjectItem(payload_describe, "bit_offset")->valueint;
+								unsigned int bit_len    = cJSON_GetObjectItem(payload_describe, "bit_len")->valueint;
+								unsigned int bit_value  = get_bit_data((const unsigned char)payload[i], bit_offset, bit_len);
+								//先确认子属性是否有变化，如果没有变化则continue，有则组json
+								if(get_bit_data(s_report_status[i], bit_offset, bit_len) == bit_value)
+								{
+									continue;
+								}
+								cJSON_AddNumberToObject(result, attribute, bit_value);
+							}
 						}
 						else	//大于4字节的是字符串类型
 						{
@@ -586,24 +617,14 @@ COMMON_API int hex_to_json(const char* uart_hex, OUT char* json_data)
 	CHECK_POINT(uart_hex);
 	CHECK_POINT(json_data);
 
-	//cJSON* res = cJSON_CreateArray();
 	cJSON* res = cJSON_CreateObject();
-	char cmd = uart_hex[6];
+	char cmd = uart_hex[3]; 
 	int ret = REPORT_TYPE_NUM;
 	switch (cmd)
 	{
-
-	case 0x02:		//电控板轮询
-		//int payload_offset = get_content_offset(s_status, "payloadData");
-		//const char * payload = uart_hex + payload_offset;
-
-
-		
-		break;
-		
-	case 0x30:		//设备控制的状态上报
+		case 0x02:		//设备控制的状态上报
 		{
-			int payload_offset = get_content_offset(s_status, "payload_data");
+			int payload_offset = get_content_offset(s_status, "payloadData");
 			const char * payload = uart_hex + payload_offset;
 			build_json(payload, res);
 			memcpy(s_report_status, payload, s_report_status_len);
@@ -614,54 +635,9 @@ COMMON_API int hex_to_json(const char* uart_hex, OUT char* json_data)
 			ret = REPORT_TYPE_SYNC;
 		}
 		break;
-	case 0x31:		//屏端收到控制指令的应答不用处理
-		MPrint("recive control response!");
-		break;
-	case 0x50:
-		{	
-			//开始录制的设备回复内容从第十字节开始
-			const char * payload = uart_hex + 10;
-			build_start_record_json(payload, res);
-			ret = REPORT_TYPE_REPLY;
-		}
-		break;
-	case 0x51:
-		{	
-			//开始录制的设备回复内容从第十字节开始
-			const char * payload = uart_hex + 10;
-			build_stop_record_json(payload, res, "stopRecordWiFi");
-			ret = REPORT_TYPE_REPLY;
-		}
-		break;
-	case 0x58:
-		{	
-			//开始录制的设备回复内容从第十字节开始
-			const char * payload = uart_hex + 10;
-			build_stop_record_json(payload, res, "stopRecordStove");
-			ret = REPORT_TYPE_REPLY;
-		}
-		break;
-	case 0x52:
-		{	
-			//开始录制的设备回复内容从第十字节开始
-			const char * payload = uart_hex + 10;
-			//MPrint("len---%d", (int)uart_hex[3]);
-			int data_len = (uart_hex[2]<<8) + uart_hex[3];
-			MPrint("datalen[%d]", data_len);
-			build_query_recipes_json(payload, res, data_len);
-			ret = REPORT_TYPE_REPLY;
-		}
-		break;
-	case 0x53:
-		{	
-			//开始录制的设备回复内容从第十字节开始
-			const char * payload = uart_hex + 10;
-			build_start_cook_json(payload, res);
-			ret = REPORT_TYPE_REPLY;
-		}
-		break;
-	default:
-		MPrint("unknow cmd %x", cmd);
+	
+		default:
+			MPrint("unknow cmd %x", cmd);
 		break;
 	}
 
