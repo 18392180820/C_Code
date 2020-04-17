@@ -371,8 +371,6 @@ unsigned int get_bit_data(const unsigned char value, const unsigned int bitoffse
 	return (value>>bitoffset)&(0xff>>(8-bitlen));
 }
 
-
-
 int build_json(const char* payload, OUT cJSON* result)
 {
 	int i = 0;
@@ -414,7 +412,7 @@ int build_json(const char* payload, OUT cJSON* result)
 								unsigned int bit_len    = cJSON_GetObjectItem(payload_describe, "bit_len")->valueint;
 								unsigned int bit_value  = get_bit_data((const unsigned char)payload[i], bit_offset, bit_len);
 								//先确认子属性是否有变化，如果没有变化则continue，有则组json
-								if(get_bit_data(s_report_status[i], bit_offset, bit_len) == bit_value)
+								if((get_bit_data(s_report_status[i], bit_offset, bit_len) == bit_value)&&(s_report_flag))
 								{
 									continue;
 								}
@@ -587,7 +585,7 @@ COMMON_API int json_to_hex(const char* json_data, OUT char* uart_hex)
 	pos += put_data_to_hex(hex, s_command, "cmd", 0);
 	pos += put_data_to_hex(hex, s_command, "addr", 0);
 
-	MPrint("req = %s", cJSON_Print(req));
+	//MPrint("req = %s", cJSON_Print(req));
 	pos += put_payload_to_hex(hex, s_command, req);
 
 	//unsigned char crc_res = get_crc(hex, pos);   //old version
@@ -596,8 +594,9 @@ COMMON_API int json_to_hex(const char* json_data, OUT char* uart_hex)
 
 	//MPrint("crc_res[%u]", crc_res);
 
-	pos += put_data_to_hex(hex, s_command, "crcl", (crc_res>>8)&0xFF);
-	pos += put_data_to_hex(hex, s_command, "crch", (crc_res>>0)&0xFF);
+	//pos += put_data_to_hex(hex, s_command, "crcl", (crc_res>>8)&0xFF);
+	//pos += put_data_to_hex(hex, s_command, "crch", (crc_res>>0)&0xFF);
+	pos += put_data_to_hex(hex, s_command, "crc", crc_res);
 	memcpy(uart_hex, hex, pos);
 	F_FREE(hex);
 	cJSON_Delete(req);

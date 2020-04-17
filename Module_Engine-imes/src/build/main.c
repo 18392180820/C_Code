@@ -64,7 +64,7 @@ void IMES_Test()
 						0, 0, 0, 0, 0, 0, 0, 0, 
 						0x98, 0, 0, 0x11, 0x12, 0x11, 0, 0, 0, 0, 
 						0x02, 0, 0x11, 0x11, 0, 0, 0, 0, 0, 0};
-#endif
+
 
 	char payload_status[256] = {0xf4, 0xf5, 0x30, 0x02, 0x02, 
 						0x02, 0x02, 0x00, 0x33, 0x00, 14, 15, 14, 15, 
@@ -86,6 +86,7 @@ void IMES_Test()
 
 		sleep(1);
 	}
+#endif
 }
 
 //对单字节的取位函数，右移offset，取len的长度
@@ -118,22 +119,6 @@ int main()
 	{
 		//sleep(1);
 	}
-#if 0
-	int i = 0xDD;
-	int offset = 0;
-	int len = 4;
-
-	bit_test(i, 1, 3);
-	bit_test(i, 3, 1);
-	bit_test(i, 4, 3);	
-	bit_test(i, 5, 2);
-
-	printf("### %d\n", bit_test(i, 1, 3));
-	printf("### %d\n", bit_test(i, 3, 1));
-	printf("### %d\n", bit_test(i, 4, 3));
-	printf("### %d\n", bit_test(i, 5, 2));	
-#endif
-
 }
 
 
