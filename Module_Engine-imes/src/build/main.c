@@ -9,7 +9,7 @@
 #define RANGHOOD_MODULE_FILE_PATH "../../config/ranghood_module.config"
 #define DISINFECTION_MODULE_FILE_PATH "../../config/xdg_module.config"
 #define STEAMER_MODULE_FILE_PATH "../../config/SCD39-C2.i_module.config"
-#define IMES_MODULE_FILE_PATH "../../config/imes_module.config"
+#define IMES_MODULE_FILE_PATH "../../config/imes_module-v0.0.5.config"
 
 
 #define Trace() printf("%s<%d>\n", __FUNCTION__, __LINE__)
@@ -54,11 +54,13 @@ void IMES_Test()
 	
 	char req[256] = "{\"PowerSwitchAll\":2,\"Light\":1}";
 	char hex[256] = {0};
-	json_to_hex(req, hex);
-	print_hex(hex, 30);
+	int res = json_to_hex(req, hex);
+	print_hex(hex, (hex[2]+3));
 	printf("\n");
+	printf("res = %d\n", res);
 
 #if 0
+
 	const char payload_status[256] = {0xf4, 0xf5, 0x30, 0x02, 0x02, 
 						0x02, 0x02, 0x00, 0x33, 0x00, 14, 15, 14, 15, 
 						0, 0, 0, 0, 0, 0, 0, 0, 
@@ -71,6 +73,7 @@ void IMES_Test()
 						0, 0, 0, 0, 0, 0, 0, 0, 
 						0x98, 0, 0, 0x11, 0x12, 0x11, 0, 0, 0, 0, 
 						0x02, 0, 0x11, 0x11, 0, 0, 0, 0, 0, 0};
+
 
 	char string[856];
 

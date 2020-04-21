@@ -10,7 +10,41 @@ void *thread_func(void *msg);
 sem_t sem;//信号量
  
 #define MSG_SIZE 512
- 
+
+
+typedef void* (*pThreadFun)(void*) ; 
+typedef struct _thread_info
+{
+	pthread_t  id ; 
+	sem_t sem ;
+	unsigned char status ; 
+	pThreadFun callback ;
+} st_thread_info,*p_thread_info ;
+
+st_thread_info* p=malloc(sizeof(st_thread_info)*x) ; 
+
+
+for( int i =0 ; i < 5 ;i ++)
+{
+	st_thread_info st ; 
+	init(st) ; 
+	pthread_create(&st.id, NULL, thread_func, &st);
+	*p++=&st ; 
+}
+
+
+
+
+void * a(void*p)
+{
+	ENDLESS(
+		sem_wait(p->sem ) ;
+		sssss
+			
+	)
+	
+}
+
 int main()
 {
 	int res = -1;
