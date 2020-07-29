@@ -77,6 +77,8 @@ typedef enum REPORT_TYPE
 extern "C" {
 #endif
 
+unsigned int Crc16 (unsigned char *Dat, unsigned char Start_Byte,unsigned char Length);
+
 /**
 * @ Description: 
 * @ param file: 	config file path 

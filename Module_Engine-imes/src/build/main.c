@@ -14,6 +14,832 @@
 
 #define Trace() printf("%s<%d>\n", __FUNCTION__, __LINE__)
 
+static const char* imes_wifi_schema_n = "{\
+\"AttributeList\": [\
+{\
+\"attr\": \"PowerSwitchAll\",\
+\"cmd\": {\
+\"offset\": 0,\
+\"len\": 1,\
+\"bit_index\": 0\
+},\
+\"status\": {\
+\"offset\": 2,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"WorkMode\",\
+\"cmd\": {\
+\"offset\": 1,\
+\"len\": 1,\
+\"bit_index\": 1\
+},\
+\"status\": {\
+\"offset\": 3,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"Light\",\
+\"cmd\": {\
+\"offset\": 2,\
+\"len\": 1,\
+\"bit_index\": 2\
+},\
+\"status\": {\
+\"offset\": 4,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"Delay\",\
+\"cmd\": {\
+\"offset\": 3,\
+\"len\": 1,\
+\"bit_index\": 3\
+},\
+\"status\": {\
+\"offset\": 5,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"GearRank\",\
+\"cmd\": {\
+\"offset\": 4,\
+\"len\": 1,\
+\"bit_index\": 4\
+},\
+\"status\": {\
+\"offset\": 6,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"AirQul\",\
+\"status\": {\
+\"offset\": 10,\
+\"len\": 1,\
+\"bit_offset\": 0,\
+\"bit_len\": 4\
+}\
+},\
+{\
+\"attr\": \"AirButlerState\",\
+\"status\": {\
+\"offset\": 10,\
+\"len\": 1,\
+\"bit_offset\": 4,\
+\"bit_len\": 4\
+}\
+},\
+{\
+\"attr\": \"GearSpeedH\",\
+\"status\": {\
+\"offset\": 11,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"GearSpeedL\",\
+\"status\": {\
+\"offset\": 12,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"GearAmH\",\
+\"status\": {\
+\"offset\": 13,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"GearAmL\",\
+\"status\": {\
+\"offset\": 14,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"RunTimeH\",\
+\"status\": {\
+\"offset\": 15,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"RunTimeL\",\
+\"status\": {\
+\"offset\": 16,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"AirVolumeH\",\
+\"status\": {\
+\"offset\": 17,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"AirVolumeL\",\
+\"status\": {\
+\"offset\": 18,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"AmRank\",\
+\"status\": {\
+\"offset\": 19,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF1\",\
+\"status\": {\
+\"offset\": 22,\
+\"len\": 1,\
+\"bit_offset\": 0,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF2\",\
+\"status\": {\
+\"offset\": 22,\
+\"len\": 1,\
+\"bit_offset\": 1,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF5\",\
+\"status\": {\
+\"offset\": 22,\
+\"len\": 1,\
+\"bit_offset\": 4,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF6\",\
+\"status\": {\
+\"offset\": 22,\
+\"len\": 1,\
+\"bit_offset\": 5,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF8\",\
+\"status\": {\
+\"offset\": 22,\
+\"len\": 1,\
+\"bit_offset\": 7,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF9\",\
+\"status\": {\
+\"offset\": 23,\
+\"len\": 1,\
+\"bit_offset\": 0,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF10\",\
+\"status\": {\
+\"offset\": 23,\
+\"len\": 1,\
+\"bit_offset\": 1,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF11\",\
+\"status\": {\
+\"offset\": 23,\
+\"len\": 1,\
+\"bit_offset\": 2,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF12\",\
+\"status\": {\
+\"offset\": 23,\
+\"len\": 1,\
+\"bit_offset\": 3,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF13\",\
+\"status\": {\
+\"offset\": 23,\
+\"len\": 1,\
+\"bit_offset\": 4,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"ErrorF14\",\
+\"status\": {\
+\"offset\": 23,\
+\"len\": 1,\
+\"bit_offset\": 5,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"GeneratorError\",\
+\"status\": {\
+\"offset\": 24,\
+\"len\": 1,\
+\"bit_offset\": 0,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"PusnRodError\",\
+\"status\": {\
+\"offset\": 24,\
+\"len\": 1,\
+\"bit_offset\": 1,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"GasSensorError\",\
+\"status\": {\
+\"offset\": 24,\
+\"len\": 1,\
+\"bit_offset\": 2,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"PurifierError\",\
+\"status\": {\
+\"offset\": 24,\
+\"len\": 1,\
+\"bit_offset\": 3,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"TempSensorError\",\
+\"status\": {\
+\"offset\": 24,\
+\"len\": 1,\
+\"bit_offset\": 6,\
+\"bit_len\": 2\
+}\
+},\
+{\
+\"attr\": \"AcousticSensorError\",\
+\"status\": {\
+\"offset\": 25,\
+\"len\": 1,\
+\"bit_offset\": 0,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"GasSensorError\",\
+\"status\": {\
+\"offset\": 25,\
+\"len\": 1,\
+\"bit_offset\": 1,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"RSLinkError\",\
+\"status\": {\
+\"offset\": 25,\
+\"len\": 1,\
+\"bit_offset\": 2,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"FanHealthNotice\",\
+\"status\": {\
+\"offset\": 26,\
+\"len\": 1,\
+\"bit_offset\": 0,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"PurifierHealthNotice\",\
+\"status\": {\
+\"offset\": 26,\
+\"len\": 1,\
+\"bit_offset\": 1,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"VoiceBoxState\",\
+\"status\": {\
+\"offset\": 26,\
+\"len\": 1,\
+\"bit_offset\": 2,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"PublicFlueState\",\
+\"status\": {\
+\"offset\": 26,\
+\"len\": 1,\
+\"bit_offset\": 3,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"DenoiseModuleState\",\
+\"status\": {\
+\"offset\": 26,\
+\"len\": 1,\
+\"bit_offset\": 4,\
+\"bit_len\": 1\
+}\
+},\
+{\
+\"attr\": \"GasSensorCleanNotice\",\
+\"status\": {\
+\"offset\": 26,\
+\"len\": 1,\
+\"bit_offset\": 7,\
+\"bit_len\": 1\
+}\
+}\
+],\
+\"version\": \"1.0.0\",\
+\"header\": {\
+\"cmd\": {\
+\"head\": {\
+\"offset\": 0,\
+\"len\": 2,\
+\"default\": 62709\
+},\
+\"len\": {\
+\"offset\": 2,\
+\"len\": 1\
+},\
+\"cmd\": {\
+\"offset\": 3,\
+\"len\": 1,\
+\"default\": 2\
+},\
+\"addr\": {\
+\"offset\": 4,\
+\"len\": 1,\
+\"default\":200\
+},\
+\"bitflag\": {\
+\"offset\": 5,\
+\"len\": 1\
+},\
+\"data\": {\
+\"offset\": 6,\
+\"len\": 28\
+},\
+\"crc\": {\
+\"offset\": 34,\
+\"len\": 2\
+}\
+},\
+\"status\": {\
+\"payloadData\": {\
+\"offset\": 5,\
+\"len\": 29\
+}\
+}\
+}\
+}";
+
+static const char* imes_wifi_schema = "{\
+  \"AttributeList\": [\
+    {\
+      \"attr\": \"PowerSwitchAll\",\
+      \"cmd\": {\
+        \"offset\": 0,\
+        \"len\": 1,\
+        \"bit_index\": 0\
+      },\
+      \"status\": {\
+        \"offset\": 2,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"WorkMode\",\
+      \"cmd\": {\
+        \"offset\": 1,\
+        \"len\": 1,\
+        \"bit_index\": 1\
+      },\
+      \"status\": {\
+        \"offset\": 3,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"Light\",\
+      \"cmd\": {\
+        \"offset\": 2,\
+        \"len\": 1,\
+        \"bit_index\": 2\
+      },\
+      \"status\": {\
+        \"offset\": 4,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"Delay\",\
+      \"cmd\": {\
+        \"offset\": 3,\
+        \"len\": 1,\
+        \"bit_index\": 3\
+      },\
+      \"status\": {\
+        \"offset\": 5,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"GearRank\",\
+      \"cmd\": {\
+        \"offset\": 4,\
+        \"len\": 1,\
+        \"bit_index\": 4\
+      },\
+      \"status\": {\
+        \"offset\": 6,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"AirQul\",\
+      \"status\": {\
+        \"offset\": 10,\
+        \"len\": 1,\
+		\"bit_offset\": 0,\
+		\"bit_len\": 4\
+	  }\
+    },\
+    {\
+      \"attr\": \"AirButlerState\",\
+      \"status\": {\
+        \"offset\": 10,\
+        \"len\": 1,\
+		\"bit_offset\": 4,\
+		\"bit_len\": 4\
+	  }\
+    },\
+    {\
+      \"attr\": \"GearSpeedH\",\
+      \"status\": {\
+        \"offset\": 11,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"GearSpeedL\",\
+      \"status\": {\
+        \"offset\": 12,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"GearAmH\",\
+      \"status\": {\
+        \"offset\": 13,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"GearAmL\",\
+      \"status\": {\
+        \"offset\": 14,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"RunTimeH\",\
+      \"status\": {\
+        \"offset\": 15,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"RunTimeL\",\
+      \"status\": {\
+        \"offset\": 16,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"AirVolumeH\",\
+      \"status\": {\
+        \"offset\": 17,\
+        \"len\": 1\
+      }\
+    },\
+	{\
+      \"attr\": \"AirVolumeL\",\
+      \"status\": {\
+        \"offset\": 18,\
+        \"len\": 1\
+      }\
+    },\
+	{\
+      \"attr\": \"AmRank\",\
+      \"status\": {\
+        \"offset\": 19,\
+        \"len\": 1\
+      }\
+    },\
+    {\
+      \"attr\": \"ErrorF1\",\
+      \"status\": {\
+        \"offset\": 22,\
+        \"len\": 1,\
+		\"bit_offset\": 0,\
+		\"bit_len\": 1\
+	  }\
+    },\
+    {\
+      \"attr\": \"ErrorF2\",\
+      \"status\": {\
+        \"offset\": 22,\
+        \"len\": 1,\
+		\"bit_offset\": 1,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"ErrorF5\",\
+      \"status\": {\
+        \"offset\": 22,\
+        \"len\": 1,\
+		\"bit_offset\": 4,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"ErrorF6\",\
+      \"status\": {\
+        \"offset\": 22,\
+        \"len\": 1,\
+		\"bit_offset\": 5,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"ErrorF8\",\
+      \"status\": {\
+        \"offset\": 22,\
+        \"len\": 1,\
+		\"bit_offset\": 7,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"ErrorF9\",\
+      \"status\": {\
+        \"offset\": 23,\
+        \"len\": 1,\
+		\"bit_offset\": 0,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"ErrorF10\",\
+      \"status\": {\
+        \"offset\": 23,\
+        \"len\": 1,\
+		\"bit_offset\": 1,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"ErrorF11\",\
+      \"status\": {\
+        \"offset\": 23,\
+        \"len\": 1,\
+		\"bit_offset\": 2,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"ErrorF12\",\
+      \"status\": {\
+        \"offset\": 23,\
+        \"len\": 1,\
+		\"bit_offset\": 3,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"ErrorF13\",\
+      \"status\": {\
+        \"offset\": 23,\
+        \"len\": 1,\
+		\"bit_offset\": 4,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"ErrorF14\",\
+      \"status\": {\
+        \"offset\": 23,\
+        \"len\": 1,\
+		\"bit_offset\": 5,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"GeneratorError\",\
+      \"status\": {\
+        \"offset\": 24,\
+        \"len\": 1,\
+		\"bit_offset\": 0,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"PusnRodError\",\
+      \"status\": {\
+        \"offset\": 24,\
+        \"len\": 1,\
+		\"bit_offset\": 1,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"GasSensorError\",\
+      \"status\": {\
+        \"offset\": 24,\
+        \"len\": 1,\
+		\"bit_offset\": 2,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"PurifierError\",\
+      \"status\": {\
+        \"offset\": 24,\
+        \"len\": 1,\
+		\"bit_offset\": 3,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"TempSensorError\",\
+      \"status\": {\
+        \"offset\": 24,\
+        \"len\": 1,\
+		\"bit_offset\": 6,\
+		\"bit_len\": 2\
+	  }\
+    },\
+	{\
+      \"attr\": \"AcousticSensorError\",\
+      \"status\": {\
+        \"offset\": 25,\
+        \"len\": 1,\
+		\"bit_offset\": 0,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"GasSensorError\",\
+      \"status\": {\
+        \"offset\": 25,\
+        \"len\": 1,\
+		\"bit_offset\": 1,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"RSLinkError\",\
+      \"status\": {\
+        \"offset\": 25,\
+        \"len\": 1,\
+		\"bit_offset\": 2,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"FanHealthNotice\",\
+      \"status\": {\
+        \"offset\": 26,\
+        \"len\": 1,\
+		\"bit_offset\": 0,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"PurifierHealthNotice\",\
+      \"status\": {\
+        \"offset\": 26,\
+        \"len\": 1,\
+		\"bit_offset\": 1,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"VoiceBoxState\",\
+      \"status\": {\
+        \"offset\": 26,\
+        \"len\": 1,\
+		\"bit_offset\": 2,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"PublicFlueState\",\
+      \"status\": {\
+        \"offset\": 26,\
+        \"len\": 1,\
+		\"bit_offset\": 3,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"DenoiseModuleState\",\
+      \"status\": {\
+        \"offset\": 26,\
+        \"len\": 1,\
+		\"bit_offset\": 4,\
+		\"bit_len\": 1\
+	  }\
+    },\
+	{\
+      \"attr\": \"GasSensorCleanNotice\",\
+      \"status\": {\
+        \"offset\": 26,\
+        \"len\": 1,\
+		\"bit_offset\": 7,\
+		\"bit_len\": 1\
+	  }\
+    }\
+  ],\
+  \"version\": \"1.0.0\",\
+  \"header\": {\
+    \"cmd\": {\
+      \"head\": {\
+        \"offset\": 0,\
+        \"len\": 2,\
+        \"default\": 62709\
+      },\
+      \"len\": {\
+        \"offset\": 2,\
+        \"len\": 1\
+      },\
+      \"cmd\": {\
+        \"offset\": 3,\
+        \"len\": 1,\
+        \"default\": 2\
+      },\
+      \"addr\": {\
+        \"offset\": 4,\
+        \"len\": 1,\
+		\"default\":200\
+      },\
+	  \"bitflag\": {\
+        \"offset\": 5,\
+        \"len\": 1\
+      },\
+      \"data\": {\
+        \"offset\": 6,\
+        \"len\": 28\
+      },\
+	  \"crc\": {\
+        \"offset\": 34,\
+        \"len\": 2\
+      }\
+    },\
+    \"status\": {\
+      \"payloadData\": {\
+        \"offset\": 5,\
+        \"len\": 29\
+      }\
+    }\
+  }\
+}";
+
 void print_hex(const unsigned char* hex, const int len)
 {
 	int i = 0;
@@ -50,7 +876,7 @@ void IMES_Test()
 {	
 
 	int ret = load_config_file(IMES_MODULE_FILE_PATH);
-	int i = 5;
+	int i = 1;
 	
 	char req[256] = "{\"PowerSwitchAll\":2,\"Light\":1}";
 	char hex[256] = {0};
@@ -59,22 +885,22 @@ void IMES_Test()
 	printf("\n");
 	printf("res = %d\n", res);
 
-#if 0
+#if 1
 
-	const char payload_status[256] = {0xf4, 0xf5, 0x30, 0x02, 0x02, 
-						0x02, 0x02, 0x00, 0x33, 0x00, 14, 15, 14, 15, 
-						0, 0, 0, 0, 0, 0, 0, 0, 
+	const char payload_status[256] = {0xf4, 0xf5, 0x21, 0x02, 0x08, 
+						0x02, 0x02, 0x11, 0x11, 0x11, 14, 15, 14, 15, 
+						0, 0x12, 0, 0, 0, 0, 0, 0, 
 						0x98, 0, 0, 0x11, 0x12, 0x11, 0, 0, 0, 0, 
 						0x02, 0, 0x11, 0x11, 0, 0, 0, 0, 0, 0};
 
-
+/*
 	char payload_status[256] = {0xf4, 0xf5, 0x30, 0x02, 0x02, 
 						0x02, 0x02, 0x00, 0x33, 0x00, 14, 15, 14, 15, 
 						0, 0, 0, 0, 0, 0, 0, 0, 
 						0x98, 0, 0, 0x11, 0x12, 0x11, 0, 0, 0, 0, 
 						0x02, 0, 0x11, 0x11, 0, 0, 0, 0, 0, 0};
-
-
+*/
+	
 	char string[856];
 
 	while(i--)
@@ -84,10 +910,10 @@ void IMES_Test()
 														
 		printf("###### Json Value = %s\n", cJSON_Print(cJSON_Parse(string)));
 
-		payload_status[5]++;
-		payload_status[22]++;
+		//payload_status[5]++;
+		//payload_status[22]++;
 
-		sleep(1);
+		//sleep(1);
 	}
 #endif
 }
@@ -110,18 +936,40 @@ char bit_test(char value, unsigned int offset, unsigned int len)
 	return (value>>offset)&(0xff>>(8-len));
 }
 
-
-
+#define HTTP_TIME_URL_PARAM			"/v5/time_sync/"
 
 int main()
 {
 	//cJSON_TEST();
 
-	IMES_Test();
+	//IMES_Test();
 	//while(1)
 	{
 		//sleep(1);
 	}
+
+	//printf("strlen of schema   = %ld\n", strlen(imes_wifi_schema));
+	//printf("strlen of schema_n = %ld\n", strlen(imes_wifi_schema_n));
+
+	//unsigned char payload[38] = {0xF4, 0xF5, 0x21, 0x02, 0x08, 00, 00, 0x01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 0x79, 0xB3};
+
+	//int res = Crc16(payload, 0, 34);
+
+	//printf("低8位 = %02X\n", (res>>0)&0xFF);
+	//printf("高8位 = %02X\n", (res>>8)&0xFF);
+
+	const char* url = "{\"PowerSwitchAll\":1,\"WorkMode\":0,\"Light\":0,\"Delay\":0,\"GearRank\":0,\"AirQul\":0,\"AirButlerState\":0,\"ErrF1\":0,\"ErrF2\":0,\"ErrF5\":0,\"ErrF6\":0,\"ErrF8\":0,\"ErrF9\":0,\"ErrF10\":0,\"ErrF11\":0,\"ErrF12\":0,\"ErrF13\":0,\"ErrF14\":0,\"GeneratorE";
+
+	const char* url_param = "/v5/time_sync/";
+
+	char str[128];
+	memset(str, 0x00, sizeof(str));
+	
+	printf("strlen of %s is %ld\n", HTTP_TIME_URL_PARAM, strlen(HTTP_TIME_URL_PARAM));
+
+	
+	printf("strlen of %s is %ld\n", url_param, strlen(url_param));
+	
 }
 
 

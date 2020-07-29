@@ -9,8 +9,18 @@
 #define DISINFECTION_MODULE_FILE_PATH "../../config/xdg_module.config"
 #define STEAMER_MODULE_FILE_PATH "../../config/SCD39-C2.i_module.config"
 
+#define SCHEMA_CJSON_QUERY_DEV_VER					"queryDevVersionInfo"
+#define SCHEMA_CJSON_UPDATE_FIRMWARE				"appUpdateFirmware"
+#define SCHEMA_CJSON_VERSION						"version"
+#define SCHEMA_CJSON_MD5							"md5"
+#define SCHEMA_CJSON_URLLEN 						"urlLen"
+#define SCHEMA_CJSON_URL							"url"
+
 
 #define Trace() printf("%s<%d>\n", __FUNCTION__, __LINE__)
+
+static const char* update = "{\"appUpdateFirmware\":{\"version\":\"FIKS-WA104\",\"md5\":\"1567C30D0F798918CC55968B2B0C7A9A\",\"urlLen\":\"150\",\"url\":\"http://fotile-ota.oss-cn-hangzhou.aliyuncs.com/Z-%E8%91%A3%E6%98%8E%E6%98%8A%E4%B8%B4%E6%97%B6/%E5%BD%92%E4%B8%80%E5%8C%96_C2T/FIKS-WA104.bin\"}}";
+static const char* version = "{\"queryDevVersionInfo\":\"NULL\"}";
 
 void print_hex(const unsigned char* hex, const int len)
 {
@@ -283,14 +293,30 @@ int main()
 	//ServiceTest_start_record();
 	//ServiceTest_stop_record_wifi();
 	//ServiceTest_stop_record_stove();
-	ServiceTest_query_recipes();
-	ServiceTest_start_cook();
+	//ServiceTest_query_recipes();
+	//ServiceTest_start_cook();
 	//ServiceTest_all_report();
 	
 	//while(1)
 	{
 		//sleep(1);
 	}
+#if 0
+	cJSON* req = cJSON_Parse(version);//cJSON* req = cJSON_Parse(update);
+	cJSON* obj = cJSON_GetArrayItem(req, 0);
+
+	cJSON* sub_version	= cJSON_GetObjectItem(obj, SCHEMA_CJSON_VERSION);
+    cJSON* sub_md5	 	= cJSON_GetObjectItem(obj, SCHEMA_CJSON_MD5);
+    cJSON* sub_url	 	= cJSON_GetObjectItem(obj, SCHEMA_CJSON_URL);
+	
+	printf("convert result= \n%s\n\n", cJSON_Print(obj));
+
+	printf("convert result= \n%s\n", obj->string);
+	//printf("convert result= \n%s\n", obj->string);
+#endif
+	
+	
+	return 1;
 }
 
 

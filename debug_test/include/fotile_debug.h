@@ -28,21 +28,37 @@ extern "C" {
 *                      DEBUG PRINT FORMAT
 ******************************************************/
 
+/******************************************************************************************************************************
+\033[显示方式;前景色;背景色m
+  显示方式 :0（默认值）、1（高亮）、22（非粗体）、4（下划线）、24（非下划线）、5（闪烁）、25（非闪烁）、7（反显）、27（非反显）
+ 前景色:30（黑色）、31（红色）、32（绿色）、 33（黄色）、34（蓝色）、35（洋红）、36（青色) 、37（白色）
+ 背景色:40（黑色）、41（红色）、42（绿色）、 43（黄色）、44（蓝色）、45（洋红）、46（青色）、47（白色）
+\033[0m 默认
+\033[1;32;40m 绿色
+033[1;31;40m 红色
+******************************************************************************************************************************/
+
+//printf( "\033[1;31;40m 输出红色字符 \033[0m" )
+
 #define ESC_START     "\033["
 #define ESC_END       "\033[0m"
-#define COLOR_INFO    "32;40;1m"
-#define COLOR_ERROR   "31;40;1m"
-#define COLOR_WARN    "33;40;1m"   
+#define COLOR_INFO    "0;32m"
+#define COLOR_ERROR   "0;31m"
+#define COLOR_WARN    "0;33m"   
+
+//#define COLOR_INFO    "32;40;1m"
+//#define COLOR_ERROR   "31;40;1m"
+//#define COLOR_WARN    "33;40;1m"
 
 #define	DEBUG_INPUT_DELAY		(50000)
 #define DEBUG_OK 				(0)		//(SINT32)0
 #define DEBUG_ERROR 			(-1)	//(SINT32)-1
 
 
-#define	CONSOLE_DEBUG_TAG	"fotile_debug.c"
-#define	CONSOLE_DBG_I(format, x...) printf(ESC_START COLOR_INFO  "[INFO  %s: line: %d]:" format ESC_END "\r\n", CONSOLE_DEBUG_TAG, __LINE__, ##x);
-#define	CONSOLE_DBG_E(format, x...) printf(ESC_START COLOR_ERROR "[ERROR %s: %s() line: %d]:" format ESC_END "\r\n", CONSOLE_DEBUG_TAG, __FUNCTION__, __LINE__, ##x);
-#define	CONSOLE_DBG_W(format, x...) printf(ESC_START COLOR_WARN  "[WARN  %s: %s() line: %d]:" format ESC_END "\r\n", CONSOLE_DEBUG_TAG, __FUNCTION__, __LINE__, ##x);
+#define	CONSOLE_DEBUG_TAG	"fotile_debug"
+#define	CONSOLE_DBG_I(format, x...) printf(ESC_START COLOR_INFO  "[INFO  %s: %s(%s) line: %d]:" format ESC_END "\r\n", CONSOLE_DEBUG_TAG, __FUNCTION__, __DATE__, __LINE__, ##x);
+#define	CONSOLE_DBG_E(format, x...) printf(ESC_START COLOR_ERROR "[ERROR %s: %s(%s) line: %d]:" format ESC_END "\r\n", CONSOLE_DEBUG_TAG, __FUNCTION__, __TIME__, __LINE__, ##x); //TIME
+#define	CONSOLE_DBG_W(format, x...) printf(ESC_START COLOR_WARN  "[WARN  %s: %s(%s) line: %d]:" format ESC_END "\r\n", CONSOLE_DEBUG_TAG, __FUNCTION__, __FILE__, __LINE__, ##x);
 #define	CONSOLE_DBG_B(format, x...) printf("\n");
 
 /******************************************************
