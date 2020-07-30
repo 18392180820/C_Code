@@ -52,7 +52,6 @@ typedef enum {
 #define COLOR_WARN    "0;33m"   
 #define COLOR_ERROR   "0;31m"
 
-
 #define filename(x) strrchr(x,'/')?strrchr(x,'/')+1:x
 #define __FILENAME__ (filename(__FILE__))
 
