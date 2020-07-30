@@ -52,24 +52,28 @@ typedef enum {
 #define COLOR_WARN    "0;33m"   
 #define COLOR_ERROR   "0;31m"
 
+
+#define filename(x) strrchr(x,'/')?strrchr(x,'/')+1:x
+#define __FILENAME__ (filename(__FILE__))
+
 // log output
-#define LOG_OUTPUT(level, tag, format, ...) do{\
-		if(level == LEVLE_LOG_INFO)			{printf(ESC_START COLOR_INFO  "I %s:%s<%d>:" format ESC_END "\r\n", tag, __FUNCTION__, __LINE__, ##__VA_ARGS__);}\
-		else if(level == LEVLE_LOG_WARN)	{printf(ESC_START COLOR_WARN  "W %s:%s<%d>:" format ESC_END "\r\n", tag, __FUNCTION__, __LINE__, ##__VA_ARGS__);}\
-		else if(level == LEVLE_LOG_ERROR)	{printf(ESC_START COLOR_ERROR "E %s:%s<%d>:" format ESC_END "\r\n", tag, __FUNCTION__, __LINE__, ##__VA_ARGS__);}\
+#define LOG_OUTPUT(level, format, ...) do{\
+		if(level == LEVLE_LOG_INFO)			{printf(ESC_START COLOR_INFO  "I %s:%s<%d>:" format ESC_END "\r\n", __FILENAME__, __FUNCTION__, __LINE__, ##__VA_ARGS__);}\
+		else if(level == LEVLE_LOG_WARN)	{printf(ESC_START COLOR_WARN  "W %s:%s<%d>:" format ESC_END "\r\n", __FILENAME__, __FUNCTION__, __LINE__, ##__VA_ARGS__);}\
+		else if(level == LEVLE_LOG_ERROR)	{printf(ESC_START COLOR_ERROR "E %s:%s<%d>:" format ESC_END "\r\n", __FILENAME__, __FUNCTION__, __LINE__, ##__VA_ARGS__);}\
 		}while(0)
 
 // confirm log output level
-#define LOG_LEVEL(level, tag, format, ...) do{\
+#define LOG_LEVEL(level, format, ...) do{\
 		if((level < LEVLE_LOG_NONE) || (level >= LOG_MAX)) printf("###error_in_log_level\n");\
-		if(level <= LOG_LEVEL_CONFIG) LOG_OUTPUT(level, tag, format, ##__VA_ARGS__);\
+		if(level <= LOG_LEVEL_CONFIG) LOG_OUTPUT(level, format, ##__VA_ARGS__);\
 		}while(0)
 
-#define LOG_I(tag, format, ...) LOG_LEVEL(LEVLE_LOG_INFO,  tag, format, ##__VA_ARGS__)
-#define LOG_W(tag, format, ...) LOG_LEVEL(LEVLE_LOG_WARN,  tag, format, ##__VA_ARGS__)
-#define LOG_E(tag, format, ...) LOG_LEVEL(LEVLE_LOG_ERROR, tag, format, ##__VA_ARGS__)
+#define LOG_I(format, ...) LOG_LEVEL(LEVLE_LOG_INFO,  format, ##__VA_ARGS__)
+#define LOG_W(format, ...) LOG_LEVEL(LEVLE_LOG_WARN,  format, ##__VA_ARGS__)
+#define LOG_E(format, ...) LOG_LEVEL(LEVLE_LOG_ERROR, format, ##__VA_ARGS__)
 
-//#define LOG_N(tag, format, ...) LOG_LEVEL(23, tag, format, ##__VA_ARGS__)
+//#define LOG_N(format, ...) LOG_LEVEL(23, format, ##__VA_ARGS__)
 
 #ifdef __cplusplus
 #endif

@@ -2,12 +2,22 @@
 
 static const char* TAG = "main";
 
+void log_put(void)
+{
+	LOG_I("###info");
+	LOG_W("###warn");
+	LOG_E("###error");
+	//LOG_N("WOW");
+}
+
 void main(void)
 {	
-	LOG_I(TAG, "info");
-	LOG_W(TAG, "warn");
-	LOG_E(TAG, "error");
-	//LOG_N(TAG, "NNN");
+	LOG_I("info");
+	LOG_W("warn");
+	LOG_E("error");
+	LOG_N("WOW");
+	//log_put();
+
 }
 
 
