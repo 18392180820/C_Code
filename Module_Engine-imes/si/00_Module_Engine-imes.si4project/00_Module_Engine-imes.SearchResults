@@ -1,0 +1,2 @@
+---- crcl Matches (1 in 0 files) ----
+json_to_hex in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine-imes\src) : 	pos += put_data_to_hex(hex, s_command, "crcl", (crc_res>>8)&0xFF);

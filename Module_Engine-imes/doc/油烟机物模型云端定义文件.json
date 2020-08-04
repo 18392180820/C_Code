@@ -1,0 +1,893 @@
+{
+	"contributor": "liujunxiang",
+	"contributorId": 1,
+	"description": "油烟机物模型描述文件",
+	"gmtCreate": 1550545053000,
+	"gmtModified": "2019-06-25 21:30:55",
+	"id": 5100000000,
+	"identifier": "hoods",
+	"name": "方太油烟机的物模型",
+	"propertyList": [{
+
+			"id": 1,
+			"identifier": "PowerSwitchAll",
+			"name": "电源开关",
+			"required": true,
+			"accessMode": "READ_WRITE",
+			"description": "设备状态关机/待机/开机",
+			"dataType": "ENUM",
+			"enumSpecDTOList": [{
+				"dataType": "ENUM",
+				"name": "关机",
+				"value": "0",
+				"valueName": "关机"
+			}, {
+				"dataType": "ENUM",
+				"name": "待机",
+				"value": "1",
+				"valueName": "待机"
+			}, {
+				"dataType": "ENUM",
+				"name": "开机",
+				"value": "2",
+				"valueName": "开机"
+			}]
+		},
+		{
+			"id": 2,
+			"identifier": "Light",
+			"name": "照明灯",
+			"required": true,
+			"accessMode": "READ_WRITE",
+			"description": "照明灯",
+			"dataType": "BOOL",
+			"enumSpecDTOList": [{
+				"dataType": "BOOL",
+				"name": "关",
+				"value": "0",
+				"valueName": "关"
+			}, {
+				"dataType": "BOOL",
+				"name": "开",
+				"value": "1",
+				"valueName": "开"
+			}]
+		},
+		{
+			"id": 3,
+			"identifier": "WorkState",
+			"name": "当前工作状态",
+			"required": true,
+			"accessMode": "READ_WRITE",
+			"description": "当前工作状态",
+			"dataType": "ENUM",
+            "enumSpecDTOList": [
+                {
+                    "dataType": "ENUM",
+                    "name": "空闲（默认）",
+                    "value": "0",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "手动模式",
+                    "value": "1",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "自动巡航模式",
+                    "value": "2",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "空气管家模式",
+                    "value": "3",
+                    "valueName": ""
+                }
+            ]
+		},
+		{
+            "id": 4,
+            "identifier": "MotorLevel",
+            "name": "电机挡数",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "电机挡数",
+            "dataType": "INT",
+            "max": 9,
+            "min": 0
+		},
+		{
+            "id": 5,
+            "identifier": "MotorCount",
+            "name": "电机数量",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "电机数量",
+            "dataType": "INT",
+            "max": 2,
+            "min": 1
+		},
+		{
+            "id": 6,
+            "identifier": "MotorType",
+            "name": "电机类型",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "电机类型",
+			"dataType": "BOOL",
+            "enumSpecDTOList": [
+                {
+                    "dataType": "BOOL",
+                    "name": "交流",
+                    "value": "0",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "BOOL",
+                    "name": "直流",
+                    "value": "1",
+                    "valueName": ""
+                }
+           ]
+		},
+		{
+            "id": 7,
+            "identifier": "MotorSpeed",
+            "name": "电机转速",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "代表转速，实际转速是400-1850  转速数除以10",
+            "dataType": "INT",
+            "max": 255,
+            "min": 0
+		} ,
+		{
+            "id": 8,
+            "identifier": "RunLoad",
+            "name": "负载状况",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "适用于维护保养，报警值",
+            "dataType": "INT",
+            "max": 255,
+            "min": 0
+		} ,
+		{
+            "id": 9,
+            "identifier": "CurrentValue",
+            "name": "电流大小",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "用作中央油烟机风机电流",
+            "dataType": "INT",
+            "max": 255,
+            "min": 0
+		} ,
+		{
+			"id": 10,
+			"identifier": "AirSensorAirQuality",
+			"name": "空气质量传感器空气质量",
+			"required": true,
+			"accessMode": "READ_ONLY",
+			"description": "空气质量传感器空气质量",
+			"dataType": "ENUM",
+            "enumSpecDTOList": [
+                {
+                    "dataType": "ENUM",
+                    "name": "优",
+                    "value": "0",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "良",
+                    "value": "1",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "较差",
+                    "value": "2",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "很差",
+                    "value": "3",
+                    "valueName": ""
+                }
+            ]
+        } ,
+		{
+			"id": 11,
+			"identifier": "AirSensorWorkState",
+			"name": "空气质量传感器自身状态",
+			"required": true,
+			"accessMode": "READ_WRITE",
+			"description": "空气质量传感器自身状态",
+			"dataType": "ENUM",
+            "enumSpecDTOList": [
+                {
+                    "dataType": "ENUM",
+                    "name": "关闭(accessMode=WRITE的时候 0空气质量传感器表示关闭)",
+                    "value": "0",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "预热(accessMode=WRITE的时候 1空气质量传感器表示开启)",
+                    "value": "1",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "运行中",
+                    "value": "2",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "换气完成",
+                    "value": "3",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "自检中",
+                    "value": "4",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "ENUM",
+                    "name": "自检完成",
+                    "value": "5",
+                    "valueName": ""
+                }
+            ]
+        },
+		{
+			"id": 12,
+			"identifier": "CookVoiceSensor",
+			"name": "烹饪声音传感器",
+			"required": true,
+			"accessMode": "READ_WRITE",
+			"description": "烹饪声音传感器",
+			"dataType": "BOOL",
+            "enumSpecDTOList": [
+                {
+                    "dataType": "BOOL",
+                    "name": "无烹饪声音",
+                    "value": "0",
+                    "valueName": ""
+                },
+                {
+                    "dataType": "BOOL",
+                    "name": "有烹饪声音",
+                    "value": "1",
+                    "valueName": ""
+                }
+            ]
+        },
+		{
+			"id": 13,
+			"identifier": "GasSensor",
+			"name": "气敏传感器",
+			"required": true,
+			"accessMode": "READ_WRITE",
+			"description": "气敏传感器",
+			"dataType": "INT",
+            "max":255,
+            "min":0
+        },
+		{
+			"id": 14,
+			"identifier": "TemperatureSensor",
+			"name": "温度传感器",
+			"required": true,
+			"accessMode": "READ_WRITE",
+			"description": "温度传感器",
+			"dataType": "INT",
+            "max":255,
+            "min":0
+        } ,
+		{
+			"id": 15,
+			"identifier": "DensitySensor",
+			"name": "油烟浓度传感器",
+			"required": true,
+			"accessMode": "READ_WRITE",
+			"description": "油烟浓度传感器",
+			"dataType": "INT",
+            "max":255,
+            "min":0
+        },
+		{
+			"id": 16,
+			"identifier": "OilSensor",
+			"name": "接油盒油量传感器",
+			"required": true,
+			"accessMode": "READ_WRITE",
+			"description": "接油盒油量传感器",
+			"dataType": "INT",
+            "max":255,
+            "min":0
+        } ,
+		{
+			"id": 17,
+			"identifier": "ErrorNum",
+			"name": "油烟机故障号",
+			"required": true,
+			"accessMode": "READ_ONLY",
+			"description": "油烟机故障号",
+			"dataType": "INT",
+            "max":255,
+            "min":0
+        } ,
+		{
+			"id": 18,
+			"identifier": "DelayedShutdown",
+			"name": "烟机延时关机",
+			"required": true,
+			"accessMode": "READ_WRITE",
+			"description": "烟机延时关机秒数,暂定2分钟",
+			"dataType": "INT",
+            "max":255,
+            "min":0
+        },
+        {
+            "id": 19,
+            "identifier": "OTA",
+            "name": "远程升级",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "是否支持远程升级",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "不支持",
+                "value": "0",
+                "valueName": "不支持"
+            }, {
+                "dataType": "BOOL",
+                "name": "支持",
+                "value": "1",
+                "valueName": "支持"
+            }]
+        } ,
+        {
+            "id": 20,
+            "identifier": "AutoWashWorkState",
+            "name": "自清洗功能状态",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "工作状态（保留）",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "非工作",
+                "value": "0",
+                "valueName": "非工作"
+            }, {
+                "dataType": "BOOL",
+                "name": "工作",
+                "value": "1",
+                "valueName": "工作"
+            }]
+        } ,
+        {
+            "id": 21,
+            "identifier": "AutoWashSet",
+            "name": "自清洗功能",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "自清洗功能操作",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "不支持",
+                "value": "0",
+                "valueName": "不支持"
+            }, {
+                "dataType": "BOOL",
+                "name": "支持",
+                "value": "1",
+                "valueName": "支持"
+            }]
+        } ,
+        {
+            "id": 22,
+            "identifier": "AudioType",
+            "name": "音频输出类型",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "音频输出类型",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "蜂鸣器",
+                "value": "0",
+                "valueName": "蜂鸣器"
+            }, {
+                "dataType": "BOOL",
+                "name": "喇叭",
+                "value": "1",
+                "valueName": "喇叭"
+            }]
+        } ,
+        {
+            "id": 23,
+            "identifier": "AutoMechanism",
+            "name": "自动机构状态",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "自动机构状态",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "自动机构关",
+                "value": "0",
+                "valueName": "自动机构关"
+            }, {
+                "dataType": "BOOL",
+                "name": "自动机构开",
+                "value": "1",
+                "valueName": "自动机构开"
+            }]
+        } ,
+        {
+            "id": 24,
+            "identifier": "Anion",
+            "name": "负离子",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "负离子",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "关",
+                "value": "0",
+                "valueName": "关"
+            }, {
+                "dataType": "BOOL",
+                "name": "开",
+                "value": "1",
+                "valueName": "开"
+            }]
+        } ,
+        {
+            "id": 25,
+            "identifier": "SetReminderTime",
+            "name": "定时提醒时间",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "定时提醒时间(单位分钟)",
+			"dataType": "INT",
+            "max":255,
+            "min":0
+        } ,
+        {
+            "id": 26,
+            "identifier": "FlueResistance",
+            "name": "烟道阻力大标志",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "烟道阻力大标志)",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "未检测到烟道阻力大",
+                "value": "0",
+                "valueName": "未检测到烟道阻力大"
+            }, {
+                "dataType": "BOOL",
+                "name": "检测到烟道阻力大",
+                "value": "1",
+                "valueName": "检测到烟道阻力大"
+            }]
+        } ,
+        {
+            "id": 27,
+            "identifier": "OilFumeConcentrationFlag",
+            "name": "油烟浓度大标志",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "油烟浓度大标志)",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "未检测到油烟浓度大",
+                "value": "0",
+                "valueName": "未检测到油烟浓度大"
+            }, {
+                "dataType": "BOOL",
+                "name": "检测到油烟浓度大",
+                "value": "1",
+                "valueName": "检测到油烟浓度大"
+            }]
+        } ,
+        {
+            "id": 28,
+            "identifier": "DevLinkage",
+            "name": "设备联动状态位",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "设备联动状态位)",
+            "dataType": "ENUM",
+            "enumSpecDTOList": [{
+                "dataType": "ENUM",
+                "name": "没有设备联动",
+                "value": "0",
+                "valueName": "没有设备联动"
+            }, {
+                "dataType": "ENUM",
+                "name": "大厨管家联动",
+                "value": "1",
+                "valueName": "大厨管家联动"
+            } ,{
+                "dataType": "ENUM",
+                "name": "烟蒸联动",
+                "value": "2",
+                "valueName": "烟蒸联动"
+            },{
+                "dataType": "ENUM",
+                "name": "烟烤联动",
+                "value": "3",
+                "valueName": "烟烤联动"
+            },{
+                "dataType": "ENUM",
+                "name": "烟蒸微联动",
+                "value": "4",
+                "valueName": "烟蒸微联动"
+            }
+            ]
+        } ,
+        {
+            "id": 29,
+            "identifier": "AirMngInter",
+            "name": "空气管家被中断标志位",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "空气管家被中断标志位",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "正常运行",
+                "value": "0",
+                "valueName": "正常运行"
+            }, {
+                "dataType": "BOOL",
+                "name": "被设备联动中断",
+                "value": "1",
+                "valueName": "被设备联动中断"
+            }]
+        } ,
+        {
+            "id": 30,
+            "identifier": "AtmosphereLight",
+            "name": "氛围灯开关",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "氛围灯开关",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "关",
+                "value": "0",
+                "valueName": "关"
+            }, {
+                "dataType": "BOOL",
+                "name": "开",
+                "value": "1",
+                "valueName": "开"
+            }]
+        } ,
+        {
+            "id": 31,
+            "identifier": "RPWM",
+            "name": "氛围灯R的PWM值",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "氛围灯R的PWM值",
+			"dataType": "INT",
+            "max":255,
+            "min":0
+        } ,
+        {
+            "id": 32,
+            "identifier": "GPWM",
+            "name": "氛围灯G的PWM值",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "氛围灯G的PWM值",
+			"dataType": "INT",
+            "max":255,
+            "min":0
+        } ,
+        {
+            "id": 33,
+            "identifier": "BPWM",
+            "name": "氛围灯B的PWM值",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "氛围灯B的PWM值",
+			"dataType": "INT",
+            "max":255,
+            "min":0
+        } ,
+        {
+            "id": 34,
+            "identifier": "SmartRecipeFlag",
+            "name": "智能菜谱状态标志位",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "智能菜谱状态标志位",
+            "dataType": "ENUM",
+            "enumSpecDTOList": [{
+                "dataType": "ENUM",
+                "name": "没有智能菜谱播放或录制",
+                "value": "0",
+                "valueName": "没有智能菜谱播放或录制"
+            }, {
+                "dataType": "ENUM",
+                "name": "智能菜谱播放中",
+                "value": "1",
+                "valueName": "智能菜谱播放中"
+            } ,{
+                "dataType": "ENUM",
+                "name": "智能菜谱录制中",
+                "value": "2",
+                "valueName": "智能菜谱录制中"
+            } 
+            ]
+        } ,
+        {
+            "id": 35,
+            "identifier": "McuOtaState",
+            "name": "电源板OTA升级标志位",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "电源板OTA升级标志位",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "电源板不在OTA状态",
+                "value": "0",
+                "valueName": "电源板不在OTA状态"
+            }, {
+                "dataType": "BOOL",
+                "name": "电源板OTA升级中",
+                "value": "1",
+                "valueName": "电源板OTA升级中"
+            } 
+            ]
+        } ,
+        {
+            "id": 36,
+            "identifier": "TimelyCompletion",
+            "name": "定时完成标记",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "定时完成标记",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "无",
+                "value": "0",
+                "valueName": "无"
+            }, {
+                "dataType": "BOOL",
+                "name": "定时完成",
+                "value": "1",
+                "valueName": "定时完成"
+            } 
+            ]
+        } ,
+        {
+            "id": 37,
+            "identifier": "RunTime",
+            "name": "油烟机运行时间",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "油烟机运行时间",
+			"dataType": "INT",
+            "max":65535,
+            "min":0
+        } ,
+        {
+            "id": 38,
+            "identifier": "RemoteControl",
+            "name": "远程控制开关",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "远程控制开关",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "关闭",
+                "value": "0",
+                "valueName": "关闭"
+            }, {
+                "dataType": "BOOL",
+                "name": "打开 默认打开",
+                "value": "1",
+                "valueName": "打开 默认打开"
+            } 
+            ]
+        } ,
+        {
+            "id": 39,
+            "identifier": "AirVolume",
+            "name": "用于中央油烟机风机风量，代表实际风量值",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "用于中央油烟机风机风量，代表实际风量值",
+			"dataType": "INT",
+            "max":65535,
+            "min":0
+        } ,
+        {
+            "id": 40,
+            "identifier": "TrifocalState",
+            "name": "三眼灶状态",
+            "required": true,
+            "accessMode": "READ_WRITE",
+            "description": "三眼灶状态",
+            "dataType": "ENUM",
+            "enumSpecDTOList": [{
+                "dataType": "ENUM",
+                "name": "关闭左灶（控制）",
+                "value": "1",
+                "valueName": "关闭左灶"
+            } ,{
+                "dataType": "ENUM",
+                "name": "关闭中灶（控制）",
+                "value": "2",
+                "valueName": "关闭中灶"
+            } ,{
+                "dataType": "ENUM",
+                "name": "关闭右灶（控制）",
+                "value": "4",
+                "valueName": "关闭右灶"
+            } 
+            ]
+        } ,
+        {
+            "id": 41,
+            "identifier": "SpecialFunction",
+            "name": "特殊功能(Z1TA-H.i油烟机)",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "用于中央油烟机风机风量，代表实际风量值",
+            "dataType": "BOOL",
+            "enumSpecDTOList": [{
+                "dataType": "BOOL",
+                "name": "净化装置保养提醒失效",
+                "value": "0",
+                "valueName": "净化装置保养提醒失效"
+            } ,{
+                "dataType": "BOOL",
+                "name": "净化装置保养提醒有效",
+                "value": "1",
+                "valueName": "净化装置保养提醒有效"
+            } 
+            ]
+        } ,
+        {
+            "id": 42,
+            "identifier": "DeviceType",
+            "name": "设备型号",
+            "required": true,
+            "accessMode": "READ_ONLY",
+            "description": "用于中央油烟机风机风量，代表实际风量值",
+            "dataType": "ENUM",
+            "enumSpecDTOList": [{
+                "dataType": "ENUM",
+                "name": "Z1TA.i",
+                "value": "4",
+                "valueName": "Z1TA.i"
+            } ,{
+                "dataType": "ENUM",
+                "name": "Z1TA.i-H",
+                "value": "5",
+                "valueName": "Z1TA.i-H"
+            } 
+            ]
+        } 
+	],
+	"serviceList": [{
+			"id": 0,
+			"name": "上报全量状态",
+			"description": "上报全量状态",
+			"identifier": "updateAllStatus"
+		},
+		{
+			"id": 1,
+			"name": "开始录制菜谱",
+			"description": "开始录制菜谱",
+			"identifier": "startRecord",
+			"inputParams": [{
+					"dataType": "STRING",
+					"dataLen": "24",
+					"name": "菜谱ID",
+					"required": true,
+					"identifier": "recipeId",
+					"isProperty": false
+				},
+				{
+					"name": "xxxx",
+					"required": true,
+					"identifier": "yyyy",
+					"isProperty": true
+				}
+			]
+		},
+		{
+			"id": 2,
+			"name": "完成录制菜谱--APP发起",
+			"description": "完成录制菜谱--APP发起",
+			"identifier": "stopRecord",
+			"inputParams": [{
+				"dataType": "STRING",
+				"dataLen": "24",
+				"name": "菜谱ID",
+				"required": true,
+				"identifier": "recipeId",
+				"isProperty": false
+			}]
+		},
+		{
+			"id": 3,
+			"name": "查询录制菜谱数据--设备端菜谱数据上传",
+			"description": "查询录制菜谱数据--设备端菜谱数据上传",
+			"identifier": "queryMenus",
+			"inputParams": [{
+				"dataType": "STRING",
+				"dataLen": "24",
+				"name": "菜谱ID",
+				"required": true,
+				"identifier": "recipeId",
+				"isProperty": false
+			}]
+		},
+		{
+			"id": 4,
+			"name": "播放菜谱（开始菜谱烹饪）",
+			"description": "播放菜谱（开始菜谱烹饪）",
+			"identifier": "startCook",
+			"inputParams": [{
+					"dataType": "STRING",
+					"dataLen": "24",
+					"name": "菜谱ID",
+					"required": true,
+					"identifier": "recipeId",
+					"isProperty": false
+				},
+				{
+					"dataType": "STRING",
+					"pattern": "^[0-9a-zA-Z]{1,256}",
+					"name": "菜谱数据",
+					"required": true,
+					"identifier": "recipePayload",
+					"isProperty": false
+				}
+			]
+		}
+	],
+	"eventList": [{
+		"id": 1,
+		"description": "菜谱烹饪完成提醒",
+		"identifier": "CookFinish",
+		"inputParams": [{
+			"dataType": "STRING",
+			"name": "菜谱烹饪完成提醒",
+			"required": true,
+			"identifier": "recipeId"
+		}]
+	}],
+
+
+	"version": "1.0"
+}

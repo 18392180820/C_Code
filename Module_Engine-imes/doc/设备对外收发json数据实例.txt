@@ -1,0 +1,225 @@
+一、烟机发送指令json
+{
+	"PowerSwitchAll":1,
+	"Light":2,
+	"DelayShutdown":30,
+	"CookID":"00112233445566778899aabb"
+}
+//最终云端发送给设备的控制指令，用数组表示，便于引擎遍历
+//超过4字节的数据 如菜谱ID 直接使用string表示16进制,长度为字节数的2倍 
+//如{"CookID":"00112233445566778899aabb"} 转换成 hex就是   0x11 0x22 .... 0xaa 0xbb
+
+二、消毒柜发送指令json
+{
+	"PowerSwitchAll":1,
+	"Cancel":2,
+	"WorkMode":30,
+	"SmartMode":30,
+	"TestMode":30,
+	"WorkTime":30,
+	"AppointmentStartTime":30,
+	"Output":30,
+	"DoorMoveControl":30,
+	"AppointmentFlag":30,
+	"BreakfastTime":286331153,
+	"LunchTime":572662306,
+	"SupperTime":858993459,
+	"ExtraTime1":1145324612,
+	"ExtraTime2":1431655765
+}
+
+三、蒸箱发送指令json
+{
+	"CookID":	"00112233445566778899aabb",
+	"Light":	2,
+	"PowerSwitchAll":	1,
+	"PushRod":	0,
+	"SetAppointmentTime":	10,
+	"SetWorkTime":	25
+}
+
+//service 的格式如下
+// 预约列表查询
+{
+	"GetAppointments":0
+}
+// 预约列表更新的数据格式
+{
+	"SetAppointments":
+	[
+		{
+			"pattern": 1,		//模式 1消毒 2烘干 3暖碟
+			"date":2,			//日期 1-7 代表周一到周日
+			"time":1025,		//时间 高位时 低位分  1025代表 4小时 1分
+			"duration":1000		//时长 秒
+		},
+		{
+			"pattern": 2,
+			"date":3,
+			"time":260,			//1小时4分
+			"duration":2000
+		}
+	]
+}
+
+// 三餐名字查询
+{
+	"GetDinnerName":0
+}
+
+//三餐名字设置格式如下
+{
+	"SetDinnerName":
+	[
+	"点心"
+	,
+	""
+	]
+}
+
+//开始录制 startRecord  灶具不填写command 字段即可
+//command 与设备控制的协议格式保持一致
+req:
+{
+	"startRecord":{
+		"recipeId":"1234567890ab1234567890ab",
+		"command":{		
+			"Light":	2,
+			"PowerSwitchAll":	1,
+			"PushRod":	0,
+			"SetAppointmentTime":	10,
+			"SetWorkTime":	260
+		}
+	}
+}
+res:
+{
+	"startRecord":{
+		"status":0,
+		"recipeId":"1234567890ab1234567890ab"
+	}
+}
+
+//结束录制-WiFi发起 stopRecordWiFi
+req:
+{
+	"stopRecordWiFi":{
+		"recipeId":"1234567890ab1234567890ab"
+	}
+}
+res:
+{
+	"stopRecordWiFi":{
+		"recipeId":"1234567890ab1234567890ab",
+		"status":0,
+		"interruptNodes":1
+	}
+}
+//结束录制-灶具发起 stopRecordStove
+req:
+{
+	"stopRecordStove":{
+		"recipeId":"1234567890ab1234567890ab",
+		"status":0,
+		"interruptNodes":1
+	}
+}
+res:
+{
+	"stopRecordStove":{
+		"recipeId":"1234567890ab1234567890ab"
+	}
+}
+//查询菜谱 queryRecipes
+req:
+{
+	"queryRecipes":{
+		"recipeId":"1234567890ab1234567890ab"
+	}
+}
+res:
+{
+	"queryRecipes":{
+		"recipeId":"1234567890ab1234567890ab",
+		"status":0,
+		"interruptNodes":1,
+		"recipeData":[
+		{
+			"version":1,
+			"type":3,
+			"mode":1,
+			"totalTime":11,
+			"currentTime":0,
+			"TNum":3,
+			"targetT":100,
+			"currentT":100
+		},
+		{
+			"version":1,
+			"type":1,
+			"mode":1,
+			"totalTime":11,
+			"currentTime":0,
+			"TNum":3,
+			"targetT":100,
+			"currentT":90
+		}
+		]
+	}
+}
+//开始烹饪 startCook
+req:
+{
+	"startCook":{
+		"recipeId":"1234567890ab1234567890ab",
+		"recipeData":[
+		{
+			"version":1,
+			"type":3,
+			"mode":1,
+			"totalTime":11,
+			"currentTime":0,
+			"TNum":3,
+			"targetT":100,
+			"currentT":100
+		},
+		{
+			"version":1,
+			"type":1,
+			"mode":1,
+			"totalTime":11,
+			"currentTime":0,
+			"TNum":3,
+			"targetT":100,
+			"currentT":90
+		}
+		]
+	}
+}
+res:
+{
+	"startCook":{
+		"recipeId":"1234567890ab1234567890ab",
+		"status":0
+	}
+}
+
+//零、上报全量设备状态指令
+向service/{productId}/{deviceId}发送以下指令：
+{
+	"updateAllStatus":null
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

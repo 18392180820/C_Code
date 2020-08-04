@@ -15,9 +15,17 @@ void main(void)
 	LOG_I("info");
 	LOG_W("warn");
 	LOG_E("error");
-	LOG_N("WOW");
+	//LOG_N("WOW");
 	//log_put();
 
+	if(-1)
+	{
+		LOG_I("HHHHHH");
+	}
+
+	printf("%d\n", (1>2));
+	printf("%d\n", (1==2));
+	printf("%d\n", (1<2));
 }
 
 

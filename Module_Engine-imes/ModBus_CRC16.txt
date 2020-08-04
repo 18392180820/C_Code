@@ -1,0 +1,27 @@
+//-------------------------------------------------------------------------------------------
+// 功能：MODBUS CRC16 计算
+// 说明：计算dat数组，从第start_btye个字节开始，计算总共length个元素的校验结果，输出int16
+//-------------------------------------------------------------------------------------------
+unsigned int Crc16 (unsigned char *Dat, unsigned char Start_Byte,unsigned char Length) 
+{
+	unsigned char i = 0;
+	unsigned int Crc = 0xFFFF;
+	unsigned char *prt;
+	prt = Dat+Start_Byte;
+	while ( Length-- ) 
+	{
+			Crc ^= *prt++;
+			for(i = 0;i<8;i++) 
+			{
+					if(Crc & 0x0001) 
+					{	
+							Crc = (Crc>>1) ^ 0xa001;
+					}
+					else
+					{
+							Crc = Crc>>1;
+					}
+			}
+	}
+	return Crc ;
+}

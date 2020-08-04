@@ -1,0 +1,764 @@
+{
+  "identifier": "12",
+  "gmtModified": "2020-05-07 18:28:21",
+  "propertyList": [
+    {
+      "id": 3311,
+      "identifier": "PowerSwitchAll",
+      "required": true,
+      "accessMode": 1,
+      "dataType": 3,
+      "name": "开关模式",
+      "description": "室内机开关位标识",
+      "dataSpecs": [
+        {
+          "dataType": "ENUM",
+          "name": "关机模式",
+          "value": 1
+        },
+        {
+          "dataType": "ENUM",
+          "name": "开机模式",
+          "value": 2
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3322,
+      "identifier": "WorkMode",
+      "required": true,
+      "accessMode": 1,
+      "dataType": 3,
+      "name": "工作模式",
+      "description": "室内机工作模式标识",
+      "dataSpecs": [
+        {
+          "dataType": "ENUM",
+          "name": "默认",
+          "value": 0
+        },
+        {
+          "dataType": "ENUM",
+          "name": "手动模式",
+          "value": 1
+        },
+        {
+          "dataType": "ENUM",
+          "name": "自动巡航模式",
+          "value": 2
+        },
+        {
+          "dataType": "ENUM",
+          "name": "空气管家模式",
+          "value": 3
+        },
+        {
+          "dataType": "ENUM",
+          "name": "清洁模式",
+          "value": 4
+        },
+        {
+          "dataType": "ENUM",
+          "name": "强制最大档",
+          "value": 5
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3324,
+      "identifier": "Light",
+      "required": true,
+      "accessMode": 1,
+      "dataType": 1,
+      "name": "照明灯状态",
+      "description": "室内机照明灯标识，参考《IMES设备室内机串口通讯协议V0.0.5》照明灯说明（0x00:关闭，0xFF:打开，0x01-0x63:1%-99%PWM占空比），，使用整数型数据",
+      "max": 255,
+      "min": 0,
+      "step": 1,
+      "functionType": 1
+    },
+    {
+      "id": 3325,
+      "identifier": "Delay",
+      "required": true,
+      "accessMode": 1,
+      "dataType": 3,
+      "name": "延时功能",
+      "description": "室内机延时功能标识",
+      "dataSpecs": [
+        {
+          "dataType": "ENUM",
+          "name": "延时关闭",
+          "value": 0
+        },
+        {
+          "dataType": "ENUM",
+          "name": "延时打开",
+          "value": 255
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3326,
+      "identifier": "GearRank",
+      "required": true,
+      "accessMode": 1,
+      "dataType": 1,
+      "name": "烟机档位",
+      "description": "室内机档位标识符",
+      "max": 255,
+      "min": 0,
+      "step": 1,
+      "functionType": 1
+    },
+    {
+      "id": 3327,
+      "identifier": "AirVolume",
+      "required": true,
+      "accessMode": 3,
+      "dataType": 1,
+      "name": "风量",
+      "description": "室内机风量标识，用于控制",
+      "max": 255,
+      "min": 0,
+      "step": 1,
+      "functionType": 1
+    },
+    {
+      "id": 3335,
+      "identifier": "AirQul",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 3,
+      "name": "空气质量",
+      "description": "室内机空气质量标识",
+      "dataSpecs": [
+        {
+          "dataType": "ENUM",
+          "name": "优秀",
+          "value": 0
+        },
+        {
+          "dataType": "ENUM",
+          "name": "良好",
+          "value": 1
+        },
+        {
+          "dataType": "ENUM",
+          "name": "较差",
+          "value": 2
+        },
+        {
+          "dataType": "ENUM",
+          "name": "很差",
+          "value": 3
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3344,
+      "identifier": "AirButlerState",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 3,
+      "name": "空气管家工作状态",
+      "description": "室内机空气管家状态标识",
+      "dataSpecs": [
+        {
+          "dataType": "ENUM",
+          "name": "关闭",
+          "value": 0
+        },
+        {
+          "dataType": "ENUM",
+          "name": "预热",
+          "value": 1
+        },
+        {
+          "dataType": "ENUM",
+          "name": "运行中",
+          "value": 2
+        },
+        {
+          "dataType": "ENUM",
+          "name": "换气完成",
+          "value": 3
+        },
+        {
+          "dataType": "ENUM",
+          "name": "自检中",
+          "value": 4
+        },
+        {
+          "dataType": "ENUM",
+          "name": "自检完成",
+          "value": 5
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3347,
+      "identifier": "ErrF1",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "室内风机驱动与室内机主控板通信异常",
+      "description": "F1异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无异常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3348,
+      "identifier": "ErrF2",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "室内机显示面板与WIFI通信异常",
+      "description": "F2异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无异常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3349,
+      "identifier": "ErrF5",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 3,
+      "name": "电动推杆异常",
+      "description": "F5异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "ENUM",
+          "name": "无异常",
+          "value": 0
+        },
+        {
+          "dataType": "ENUM",
+          "name": "异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3350,
+      "identifier": "ErrF6",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "烟道阻力大",
+      "description": "F6异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无异常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3351,
+      "identifier": "ErrF8",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "止逆阀堵塞",
+      "description": "F8异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "异常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "无异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3352,
+      "identifier": "ErrF9",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "室内风机启动异常",
+      "description": "F9异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无异常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3353,
+      "identifier": "ErrF10",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "IPM过热保护",
+      "description": "F10异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无异常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3354,
+      "identifier": "ErrF11",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "室内机堵转保护",
+      "description": "F11异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无异常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3355,
+      "identifier": "ErrF12",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "室内机过流保护",
+      "description": "F12异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无异常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3356,
+      "identifier": "ErrF13",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "室内机运放偏置电压采样异常",
+      "description": "F13异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无异常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3357,
+      "identifier": "ErrF14",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "室内机缺相保护",
+      "description": "F14异常标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无异常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "异常",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3358,
+      "identifier": "GeneratorErr",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "电机故障",
+      "description": "电机故障标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "正常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "故障",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3359,
+      "identifier": "PusnRodErr",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "推杆故障",
+      "description": "推杆故障标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "正常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "故障",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3360,
+      "identifier": "GasSensorErr",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "油烟传感器故障",
+      "description": "油烟传感器故障标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "正常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "故障",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3361,
+      "identifier": "PurifierErr",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "净化装置故障",
+      "description": "净化装置故障标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "正常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "故障",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3362,
+      "identifier": "TempSensorErr",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 3,
+      "name": "温度传感器故障",
+      "description": "温度传感器故障标识",
+      "dataSpecs": [
+        {
+          "dataType": "ENUM",
+          "name": "无故障",
+          "value": 0
+        },
+        {
+          "dataType": "ENUM",
+          "name": "短路故障",
+          "value": 1
+        },
+        {
+          "dataType": "ENUM",
+          "name": "断路故障",
+          "value": 2
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3363,
+      "identifier": "AcousticSensorErr",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "声音传感器故障",
+      "description": "声音传感器故障标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "正常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "故障",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3364,
+      "identifier": "AirSensorErr",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "空气传感器故障",
+      "description": "空气传感器故障标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "正常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "故障",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3365,
+      "identifier": "RSLinkErr",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "烟灶联动故障",
+      "description": "烟灶联动故障标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "正常",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "故障",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3366,
+      "identifier": "FanHealthNotice",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "风机保养提醒",
+      "description": "风机保养提醒标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无需提醒",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "提醒",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3367,
+      "identifier": "PurifierHealthNotice",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "净化装置保养提醒",
+      "description": "净化装置保养提醒标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无需提醒",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "提醒",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3368,
+      "identifier": "VoiceBoxState",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "语音盒子供电状态上报位",
+      "description": "语音盒子供电状态上报位标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "未上电",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "上电",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3369,
+      "identifier": "PublicFlueState",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "公共烟道拥堵状态",
+      "description": "公共烟道拥堵状态标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "不拥堵",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "拥堵",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3370,
+      "identifier": "DenoiseModuleState",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "降噪模块工作状态",
+      "description": "降噪模块工作状态标识，取值未确定，串口协议未明确给出值的意思",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "无",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "有",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    },
+    {
+      "id": 3371,
+      "identifier": "GasSensorCleanNotice",
+      "required": true,
+      "accessMode": 2,
+      "dataType": 2,
+      "name": "油烟传感器擦拭提醒",
+      "description": "油烟传感器擦拭提醒标识",
+      "dataSpecs": [
+        {
+          "dataType": "BOOL",
+          "name": "不需要",
+          "value": 0
+        },
+        {
+          "dataType": "BOOL",
+          "name": "需要",
+          "value": 1
+        }
+      ],
+      "functionType": 1
+    }
+  ],
+  "name": "IMES室内机CXW-258-JQ01TB.L",
+  "id": 5400000225,
+  "gmtCreate": 1588847301294,
+  "version": "v1"
+}

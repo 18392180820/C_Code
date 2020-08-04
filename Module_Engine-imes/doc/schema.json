@@ -1,0 +1,356 @@
+{
+  "AttributeList": [
+    {
+      "attr": "PowerSwitchAll",
+      "cmd": {
+        "offset": 0,
+        "len": 1,
+        "bit_index": 0
+      },
+      "status": {
+        "offset": 0,
+        "len": 1
+      }
+    },
+    {
+      "attr": "WorkState",
+      "cmd": {
+        "offset": 1,
+        "len": 1,
+        "bit_index": 1
+      },
+      "status": {
+        "offset": 1,
+        "len": 1
+      }
+    },
+    {
+      "attr": "Light",
+      "cmd": {
+        "offset": 2,
+        "len": 1,
+        "bit_index": 2
+      },
+      "status": {
+        "offset": 2,
+        "len": 1
+      }
+    },
+    {
+      "attr": "PushRod",
+      "cmd": {
+        "offset": 3,
+        "len": 1,
+        "bit_index": 3
+      },
+      "status": {
+        "offset": 3,
+        "len": 1
+      }
+    },
+    {
+      "attr": "WorkMode",
+      "cmd": {
+        "offset": 4,
+        "len": 1,
+        "bit_index": 4
+      },
+      "status": {
+        "offset": 4,
+        "len": 1
+      }
+    },
+    {
+      "attr": "RecipeID",
+      "cmd": {
+        "offset": 5,
+        "len": 12,
+        "bit_index": 5
+      },
+      "status": {
+        "offset": 5,
+        "len": 12
+      }
+    },
+    {
+      "attr": "SetWorkTime",
+      "cmd": {
+        "offset": 17,
+        "len": 3,
+        "bit_index": 6
+      },
+      "status": {
+        "offset": 17,
+        "len": 3
+      }
+    },
+    {
+      "attr": "SetAppointmentTime",
+      "cmd": {
+        "offset": 20,
+        "len": 3,
+        "bit_index": 7
+      },
+      "status": {
+        "offset": 20,
+        "len": 3
+      }
+    },
+    {
+      "attr": "SetTemperature1",
+      "cmd": {
+        "offset": 23,
+        "len": 1,
+        "bit_index": 8
+      },
+      "status": {
+        "offset": 29,
+        "len": 1
+      }
+    },
+    {
+      "attr": "SetTemperature2",
+      "cmd": {
+        "offset": 24,
+        "len": 1,
+        "bit_index": 9
+      },
+      "status": {
+        "offset": 30,
+        "len": 1
+      }
+    },
+    {
+      "attr": "SetTemperature3",
+      "cmd": {
+        "offset": 25,
+        "len": 1,
+        "bit_index": 10
+      },
+      "status": {
+        "offset": 31,
+        "len": 1
+      }
+    },
+    {
+      "attr": "RemainingTime",
+      "status": {
+        "offset": 23,
+        "len": 3
+      }
+    },
+    {
+      "attr": "MultiCookRemainingTime",
+      "status": {
+        "offset": 26,
+        "len": 3
+      }
+    },
+    {
+      "attr": "HeatPlatePower",
+      "status": {
+        "offset": 32,
+        "len": 1
+      }
+    },
+    {
+      "attr": "SecondHeatPower",
+      "status": {
+        "offset": 33,
+        "len": 1
+      }
+    },
+    {
+      "attr": "TemperatureSensor1",
+      "status": {
+        "offset": 34,
+        "len": 1
+      }
+    },
+    {
+      "attr": "TemperatureSensor2",
+      "status": {
+        "offset": 35,
+        "len": 1
+      }
+    },
+    {
+      "attr": "TemperatureSensor3",
+      "status": {
+        "offset": 36,
+        "len": 1
+      }
+    },
+    {
+      "attr": "WaterLevelSensor1",
+      "status": {
+        "offset": 37,
+        "len": 1
+      }
+    },
+    {
+      "attr": "WaterLevelSensor2",
+      "status": {
+        "offset": 38,
+        "len": 1
+      }
+    },
+    {
+      "attr": "PressureSensor",
+      "status": {
+        "offset": 39,
+        "len": 1
+      }
+    },
+    {
+      "attr": "HeatFilm",
+      "status": {
+        "offset": 40,
+        "len": 1
+      }
+    },
+    {
+      "attr": "Fan",
+      "status": {
+        "offset": 41,
+        "len": 1
+      }
+    },
+    {
+      "attr": "DoorLock",
+      "status": {
+        "offset": 42,
+        "len": 1
+      }
+    },
+    {
+      "attr": "DoorSwitch",
+      "status": {
+        "offset": 43,
+        "len": 1
+      }
+    },
+    {
+      "attr": "FoodPlace",
+      "status": {
+        "offset": 44,
+        "len": 1
+      }
+    },
+    {
+      "attr": "SteamerErrorNum",
+      "status": {
+        "offset": 45,
+        "len": 1
+      }
+    },
+    {
+      "attr": "OTA",
+      "status": {
+        "offset": 46,
+        "len": 1
+      }
+    },
+    {
+      "attr": "RecipeRecordStat",
+      "status": {
+        "offset": 47,
+        "len": 1
+      }
+    },
+    {
+      "attr": "RecipePlayStat",
+      "status": {
+        "offset": 48,
+        "len": 1
+      }
+    },
+    {
+      "attr": "WaterShortage",
+      "status": {
+        "offset": 49,
+        "len": 1
+      }
+    },
+    {
+      "attr": "TankPlace",
+      "status": {
+        "offset": 50,
+        "len": 1
+      }
+    },
+    {
+      "attr": "BoardOTAFlag",
+      "status": {
+        "offset": 51,
+        "len": 1
+      }
+    },
+    {
+      "attr": "RemoteControl",
+      "status": {
+        "offset": 52,
+        "len": 1
+      }
+    },
+    {
+      "attr": "RecordState",
+      "status": {
+        "offset": 53,
+        "len": 1
+      }
+    }
+  ],
+  "version": "2.5.3",
+  "header": {
+    "cmd": {
+      "head": {
+        "offset": 0,
+        "len": 2,
+        "default": 62709
+      },
+      "len": {
+        "offset": 2,
+        "len": 2
+      },
+      "type": {
+        "offset": 4,
+        "len": 2,
+        "default": 256
+      },
+      "cmd": {
+        "offset": 6,
+        "len": 1,
+        "default": 49
+      },
+      "stat": {
+        "offset": 7,
+        "len": 1,
+        "default": 1
+      },
+      "flags": {
+        "offset": 8,
+        "len": 2,
+        "default": 0
+      },
+      "payloadBitFlag": {
+        "offset": 10,
+        "len": 2
+      },
+      "payloadData": {
+        "offset": 12,
+        "len": 26
+      },
+      "crc": {
+        "offset": 38,
+        "len": 2
+      }
+    },
+    "status": {
+      "payloadData": {
+        "offset": 10,
+        "len": 64
+      }
+    }
+  }
+}

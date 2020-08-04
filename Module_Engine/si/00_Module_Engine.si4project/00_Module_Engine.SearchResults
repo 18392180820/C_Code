@@ -1,0 +1,19 @@
+---- crc Matches (27 in 0 files) ----
+module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) line 48 : static int s_command_len = 0;			//控制指令len    字段数值，包含bitflag和bitdata cmd stat crc 等
+module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) line 64 : char get_crc(const char* hex, const int len);
+module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) line 267 : char get_crc(const char* hex, int len)
+json_to_hex in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	unsigned char crc_res = get_crc(hex, pos);
+json_to_hex in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	//MPrint("crc_res[%u]", crc_res);
+json_to_hex in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	pos += put_data_to_hex(hex, s_command, "crc", crc_res);
+parse_start_record in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	unsigned char crc_res = get_crc(uart_hex, pos);
+parse_start_record in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	pos += input_big_end_data(uart_hex+pos, crc_res, 2);
+parse_stop_record in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	unsigned char crc_res = get_crc(uart_hex, pos);
+parse_stop_record in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	pos += input_big_end_data(uart_hex+pos, crc_res, 2);
+parse_terminate_cook in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	unsigned char crc_res = get_crc(uart_hex, pos);
+parse_terminate_cook in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	pos += input_big_end_data(uart_hex+pos, crc_res, 2);
+parse_query_recipes in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	unsigned char crc_res = get_crc(uart_hex, pos);
+parse_query_recipes in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	pos += input_big_end_data(uart_hex+pos, crc_res, 2);
+parse_start_cook in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	unsigned char crc_res = get_crc(uart_hex, pos);
+parse_start_cook in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	pos += input_big_end_data(uart_hex+pos, crc_res, 2);
+build_query_status_hex in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	unsigned char crc_res = get_crc(uart_hex, pos);
+build_query_status_hex in module_engine.c (E:\share\00_my_git\C_Code\Module_Engine\src) : 	pos += input_big_end_data(uart_hex+pos, crc_res, 2);
