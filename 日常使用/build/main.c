@@ -19,6 +19,19 @@ type va_arg(va_list ap, type)：这个宏检索函数参数列表中类型为 ty
 
 void va_end(va_list ap)：这个宏允许使用了 va_start 宏的带有可变参数的函数返回。如果在从函数返回之前没有调用 va_end，则结果为未定义。
 ******************************************************************************************************************/
+const char* RES_QUERY_VERSION = 
+"{\
+\"queryDevVersionInfo\":\
+{\
+\"productType\":\"%02X%02X\",\
+\"hardwareVersion\":\"%s\",\
+\"softwareVersion\":\"%s\",\
+\"productId\":\"%s\",\
+\"secretKey\":\"%s\",\
+\"mac\":\"%s\"\
+}\
+}";
+
 //阶乘_递归
 int Factorial(int value)
 {
@@ -254,7 +267,6 @@ typedef struct
 
 mine mine_type = {"hello", MINE_STR, {"hello", MINE_STR}}; 
 
-#if 0
 void main(void)
 {
 	printf("sum_Value = %d\n", add(1,2,3,4,5,6,7,0));
@@ -270,23 +282,22 @@ void main(void)
 	//printf("### %s\n", p->ss.str_a);
 	//printf("### %s\n", p->ss.str_c);
 
+    int a[5];
+    printf("%p\n", a);			//数组名a表示“数组首个元素的地质”
+    printf("%p\n", a+1);		//数组名a表示“数组首个元素的地质”，是int型，因此a+1理解为a+1*sizeof(int)
+    printf("%p\n", &a);			//&a表示int a[5]这个数组的地址，理解为&a[0],地址位置等同于a
+    printf("%p\n", &a+1);		//&a表示int a[5]这个数组的地址，&a是数组、被看成int(*)[5]，所以sizeof(a)是5，也就是5*sizeof(int)，a+5*sizeof(int)
+
+
+   	char* stri = "hello";		
+    printf("%p\n", stri);		//"hello"首地址
+    printf("%p\n", stri+1);		//"hello"首地址+1*sizeof(char)
+    printf("%p\n", &stri);		//指针的地址
+    printf("%p\n", &stri+1);	//指针的地址+1*sizeof(char*)
+
+    printf("##\n%s\n", RES_QUERY_VERSION);
+
 	return;
 }
-#endif
 
-struct str{
-    int len;
-    char s[0];
-};
- 
-struct foo {
-    struct str *a;
-};
- 
-int main(int argc, char** argv) {
-    struct foo f={0};
-    if (f.a->s) {
-        printf("%p\n", f.a->s);
-    }
-    return 0;
-}
+
