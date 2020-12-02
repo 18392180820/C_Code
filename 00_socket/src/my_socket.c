@@ -273,20 +273,17 @@ err_t tcp_client_test(const char* host, const char* port)
 {
 	ERROR_CHECK((NULL == host)||(NULL == port));
 
-	int client_fd;
-	int opt = 1;
-	uint8_t count = 5;
-	uint8_t recv_len;
-	struct sockaddr_in server_addr;
+	int client_fd;		// client socket的套接字
+	int opt = 1;		// setsockopt的选项涉资
+	struct sockaddr_in server_addr;		// server的地址信息
 	//struct sockaddr_in client_addr;
-	socklen_t addr_len = sizeof(struct sockaddr);
-	char buffer[BUFFER_SIZE];
-	int http_len = strlen(http_time);
-	int read_len = 0;
-	int data_len = 0;
+	
+	char buffer[BUFFER_SIZE];	// 存放http回复消息的缓存
+	int read_len = 0;			// 从socket中读取的单次http数据长度
+	int data_len = 0;			// 从socket中读取的http数据总长度
 
 	struct hostent* hostent_content = NULL;
-	hostent_content = gethostbyname(host);
+	hostent_content = gethostbyname(host);	// 域名转ip（host为ip也可运行）
 	ERROR_CHECK(NULL == hostent_content);
 
 	const char* server_ip = inet_ntoa(*(struct in_addr*)hostent_content->h_addr_list[0]);
@@ -302,10 +299,10 @@ err_t tcp_client_test(const char* host, const char* port)
 	client_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	ERROR_CHECK(client_fd < 0);
 
-	// 设置该socket关闭后、可重要，未加error_check
+	// 设置该socket关闭后、可重用
 	if(setsockopt(client_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
 	{	
-		LOGW("failure");
+		LOGW("setsockopt failure");
 		goto exit;
 	}
 	
@@ -330,7 +327,9 @@ err_t tcp_client_test(const char* host, const char* port)
 		goto exit;
     }
 	LOGI("connect sueecss");
-
+	
+	LOGI("http message = \n%s", http_time);
+	int http_len = strlen(http_time);
 	if(send(client_fd, http_time, http_len, 0) < 0)
 	{
 		LOGW("send failure");
@@ -345,7 +344,7 @@ err_t tcp_client_test(const char* host, const char* port)
 		data_len += read_len;
 	}while(read_len > 0);
 	
-	LOGW("buffer = \n%s", buffer);
+	LOGW("date_len = %d, buffer = \n%s", data_len, buffer);
 	
 exit:
 	close(client_fd);

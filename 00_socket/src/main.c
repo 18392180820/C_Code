@@ -27,16 +27,15 @@ int main(void)
 	//gethostbyname_test("baidu.com");
 	//gethostbyname_test("api-test.fotile.com");
 	//gethostbyname_test("10.49.2.153");
-
-
+	
 #if SERVER
 	tcp_server_test("127.123.0.1", "8031");
 #else
+	//tcp_client_test("127.123.0.1", "8031");
 	tcp_client_test("api-test.fotile.com", "8080");
 	//tcp_client_test("10.49.2.153", "80");
 #endif
 
-	
 #if 0
 	int server_sockfd,client_sockfd;
 	int server_len,client_len;
