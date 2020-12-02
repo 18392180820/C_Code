@@ -28,10 +28,11 @@ extern "C" {
 
 printf( "\033[1;31;40m 输出红色字符 \033[0m");
 ******************************************************************************************************************************/
+typedef int32_t err_t;
 void _error_check_failed(int rc, const char *file, int line, const char *function, const char *expression);
 
-#define CHECK_OK	(0)
-#define CHECK_ERROR	(-1)
+#define RES_OK		(0)
+#define RES_FAIL	(-1)
 
 #define LOG_LEVEL_CONFIG	(5)
 
@@ -72,18 +73,21 @@ typedef enum {
 		if(level <= LOG_LEVEL_CONFIG) LOG_OUTPUT(level, format, ##__VA_ARGS__);\
 		}while(0)
 
-#define LOG_I(format, ...) LOG_LEVEL(LEVLE_LOG_INFO,  format, ##__VA_ARGS__)
-#define LOG_W(format, ...) LOG_LEVEL(LEVLE_LOG_WARN,  format, ##__VA_ARGS__)
-#define LOG_E(format, ...) LOG_LEVEL(LEVLE_LOG_ERROR, format, ##__VA_ARGS__)
+#define LOGI(format, ...) LOG_LEVEL(LEVLE_LOG_INFO,  format, ##__VA_ARGS__)
+#define LOGW(format, ...) LOG_LEVEL(LEVLE_LOG_WARN,  format, ##__VA_ARGS__)
+#define LOGE(format, ...) LOG_LEVEL(LEVLE_LOG_ERROR, format, ##__VA_ARGS__)
 
 //#define LOG_N(format, ...) LOG_LEVEL(23, format, ##__VA_ARGS__)
 
 #define ERROR_CHECK(x) do {\
 			int __err_rc = (x);\
-			if (__err_rc != CHECK_OK) {\
+			if (__err_rc != RES_OK) {\
 				_error_check_failed(__err_rc, __FILENAME__, __LINE__,\
-					__FUNCTION__, #x);return CHECK_ERROR;}\
+					__FUNCTION__, #x);return RES_FAIL;}\
 			} while(0)
+
+
+void printHex(unsigned char *buff, unsigned int len, char const *str);
 
 
 #ifdef __cplusplus
