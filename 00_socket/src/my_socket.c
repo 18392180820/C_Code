@@ -239,9 +239,22 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 		goto exit;
 	}
 
+	fd_set readfds;
+	fd_set writefds;
+	fd_set exceptfds;
+	FD_ZERO(&readfds);
+	FD_ZERO(&writefds);
+	FD_ZERO(&exceptfds);
+	struct timeval t;
+	t.tv_sec  = 3;
+	t.tv_usec = 0;
+	int select_result;
+	
 	while(1)
 	{	
 		// 重置缓存信息
+		t.tv_sec  = 3;
+		t.tv_usec = 0;
 		read_len = 0;
 		data_len = 0;
 		memset(buffer, 0x00, sizeof(buffer));
@@ -259,11 +272,46 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 			LOGI("client ip_addr = 0x%02x,  port = %d", ntohs(client_addr.sin_addr.s_addr), ntohs(client_addr.sin_port));
 		}	
 		
-		//do{
-			read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
-			data_len += read_len;
-			LOGI("read_len = %d", read_len);
-		//}while(read_len > 0);
+		FD_SET(client_fd, &readfds);
+		FD_SET(client_fd, &writefds);
+		FD_SET(client_fd, &exceptfds);
+
+		select_result = select(client_fd+1, &readfds, &writefds, &exceptfds, &t); // 设置等待时间
+		
+		if(select_result <= 0) // 如果select是无限长等待，这里=0的判断有点多余
+		{
+			LOGW("select failure or timeout");
+			close(client_fd);
+			continue;
+		}
+		
+		if(FD_ISSET(client_fd, &readfds))
+		{
+			//do{
+				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
+				data_len += read_len;
+				LOGI("read_len = %d", read_len);
+			//}while(read_len > 0);
+		}
+
+		if(FD_ISSET(client_fd, &writefds))
+		{
+			//do{
+				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
+				data_len += read_len;
+				LOGI("read_len = %d", read_len);
+			//}while(read_len > 0);
+		}
+
+
+		if(FD_ISSET(client_fd, &exceptfds))
+		{
+			//do{
+				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
+				data_len += read_len;
+				LOGI("read_len = %d", read_len);
+			//}while(read_len > 0);
+		}
 
 
 		if(data_len > 0)
@@ -337,7 +385,7 @@ err_t tcp_client_test(const char* host, const char* port)
 	// 文件描述符，设置等待事件，用select选择等待事件的来临
 	fd_set readfds;
 	struct timeval t;
-	t.tv_sec  = 10;
+	t.tv_sec  = 3;
 	t.tv_usec = 0;
 	
 	FD_ZERO(&readfds);
