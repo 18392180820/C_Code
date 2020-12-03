@@ -57,6 +57,10 @@ inet_pton	int inet_pton(int af, const char *src, void *dst)
 gethostbyname	通过域名获取IP地址
 				如果入参为域名，则会将域名解析后的IP存储在（struct hostent*）结构体中
 				如果入参为ip，则会将原ip存储在（struct hostent*）结构体中
+
+select		int select(int maxfdp, fd_set *readset, fd_set *writeset, fd_set *exceptset,struct timeval *timeout);
+
+
 ***************************************************************/
 #define BUFFER_SIZE (1024)
 
@@ -267,8 +271,6 @@ exit:
 	return RES_FAIL;
 }
 
-
-
 err_t tcp_client_test(const char* host, const char* port)
 {
 	ERROR_CHECK((NULL == host)||(NULL == port));
@@ -337,15 +339,98 @@ err_t tcp_client_test(const char* host, const char* port)
 	}
 	LOGI("send message sueecss");
 	
+#if 0
+	// 文件描述符，设置等待事件，用select选择等待事件的来临
+	fd_set readfds;
+	struct timeval t;
+	t.tv_sec  = 3;
+	t.tv_usec = 0;
+	
+	FD_ZERO(&readfds);
+	FD_SET(client_fd, &readfds);
+
 	memset(buffer, 0x00, sizeof(buffer));
-	do{
-		read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
+	// 这里只用于单一socket数据接收，收完则close
+	// 返回值：超时返回0;失败返回-1；成功返回大于0的整数，这个整数表示就绪描述符的数目。
+	int select_result = select(client_fd+1, &readfds, NULL, NULL, &t);
+	
+	if(select_result > 0)
+	{
+		LOGI("client_fd = %d, select result = %d", client_fd, select_result);
+		do{
+			read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
+			data_len += read_len;
+		}while(read_len > 0);
+		LOGW("date_len = %d, buffer = \n%s", data_len, buffer);
+	}
+	else
+	{
+		LOGW("select failure");
+		goto exit;		
+	}
+
+#else // 带外事件
+
+	memset(buffer, 0x00, sizeof(buffer));
+	// 这里只用于单一socket数据接收，收完则close
+	// 返回值：超时返回0;失败返回-1；成功返回大于0的整数，这个整数表示就绪描述符的数目。
+	fd_set readfds;
+	fd_set exceptfds;
+	FD_ZERO(&readfds);
+	FD_ZERO(&exceptfds);
+	int select_result;
+	
+	struct timeval t;
+	
+	while(1) // 循环接收, 不close则一直处于接收状态
+	{	
+		t.tv_sec  = 3;
+		t.tv_usec = 0;
+		data_len = 0;	// 重置缓存信息
+		read_len = 0;
+		memset(buffer, 0x00, sizeof(buffer));		
+	
+		FD_SET(client_fd, &readfds);	// 置位
+		FD_SET(client_fd, &exceptfds);
+
+		//每次调用select之前都要重新在read_fds和exception_fds中设置文件描述符connfd，因为事件发生以后，文件描述符集合将被内核修改
+		select_result = select(client_fd+1, &readfds, NULL, &exceptfds, &t);
 		
-		data_len += read_len;
-	}while(read_len > 0);
+		if(select_result <= 0)
+		{
+			LOGW("select failure or timeout");
+			goto exit;	
+		}
+
+		if(FD_ISSET(client_fd, &readfds))
+		{
+			//LOGI("client_fd = %d, select result = %d", client_fd, select_result);
+			do{
+				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
+				data_len += read_len;
+			}while(read_len > 0);
+
+			if(data_len > 0)
+			{
+				LOGW("date_len = %d, buffer = \n%s", data_len, buffer);			
+			}
+		}
+		else if(FD_ISSET(client_fd,&exceptfds)) // 带外事件
+		{
+			//LOGI("client_fd = %d, select result = %d", client_fd, select_result);
+			do{
+				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, MSG_OOB);
+				data_len += read_len;
+			}while(read_len > 0);
+			
+			if(data_len > 0)
+			{
+				LOGW("date_len = %d, buffer = \n%s", data_len, buffer);			
+			}
+		}
+	}
 	
-	LOGW("date_len = %d, buffer = \n%s", data_len, buffer);
-	
+#endif
 exit:
 	close(client_fd);
 	return RES_FAIL;
