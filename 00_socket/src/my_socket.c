@@ -58,8 +58,19 @@ gethostbyname	通过域名获取IP地址
 				如果入参为域名，则会将域名解析后的IP存储在（struct hostent*）结构体中
 				如果入参为ip，则会将原ip存储在（struct hostent*）结构体中
 
-select		int select(int maxfdp, fd_set *readset, fd_set *writeset, fd_set *exceptset,struct timeval *timeout);
+select	int select(int maxfdp, fd_set *readset, fd_set *writeset, fd_set *exceptset,struct timeval *timeout);
+		入参说明：
+		maxfdp：被监听的文件描述符的总数，它比所有文件描述符集合中的文件描述符的最大值大1，因为文件描述符是从0开始计数的；
+		readfds、writefds、exceptset：分别指向可读、可写和异常等事件对应的描述符集合。
+		timeout:用于设置select函数的超时时间，即告诉内核select等待多长时间之后就放弃等待。timeout == NULL 表示等待无限长的时间
+		返回说明：
+		超时返回0;失败返回-1；成功返回大于0的整数，这个整数表示就绪描述符的数目。
 
+		文件描述符 
+		int FD_ZERO(int fd,  fd_set *fdset);	//一个 fd_set类型变量的所有位都设为 0
+		int FD_CLR(int fd,   fd_set *fdset);	//清除某个位时可以使用
+		int FD_SET(int fd,   fd_set *fd_set);	//设置变量的某个位置位
+		int FD_ISSET(int fd, fd_set *fdset);	//测试某个位是否被置位
 
 ***************************************************************/
 #define BUFFER_SIZE (1024)
@@ -190,13 +201,14 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 	int server_fd;
 	int client_fd = -1;
 	int opt = 1;
-	uint8_t count = 5;
-	uint8_t recv_len;
+	uint8_t count = 5;	// 可以接收的数量限制
+	uint8_t read_len;	// 单次recv的数据长度
+	uint8_t data_len;	// recv的一次完整长度
 	struct sockaddr_in server_addr;
 	struct sockaddr_in client_addr;
 	socklen_t addr_len = sizeof(struct sockaddr);
 	
-	char buffer[1024];
+	char buffer[BUFFER_SIZE];
 
 	// socket -> 创建socket套接字
 	server_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -205,7 +217,7 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 	// 设置该socket关闭后、可重要，未加error_check
 	if(setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
 	{	
-		LOGW("failure");
+		LOGW("setsockopt failure");
 		goto exit;
 	}
 
@@ -216,19 +228,22 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 	server_addr.sin_addr.s_addr = inet_addr(server_ip);
 	if(bind(server_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0)
 	{	
-		LOGW("failure");
+		LOGW("bind failure");
 		goto exit;
 	}
 	LOGI("server ip_addr = %s,  port = %d", inet_ntoa(server_addr.sin_addr), ntohs(server_addr.sin_port));
 	
 	if(listen(server_fd, count) < 0)
 	{	
-		LOGW("failure");
+		LOGW("listen failure");
 		goto exit;
 	}
 
 	while(1)
 	{	
+		// 重置缓存信息
+		read_len = 0;
+		data_len = 0;
 		memset(buffer, 0x00, sizeof(buffer));
 
 		// 注意accept的最后参数为传入传出参数，accept函数返回的时候、会被重新赋值
@@ -244,29 +259,23 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 			LOGI("client ip_addr = 0x%02x,  port = %d", ntohs(client_addr.sin_addr.s_addr), ntohs(client_addr.sin_port));
 		}	
 		
-		do{
-			recv_len = recv(client_fd, buffer, 1024, 0);
-			if(recv_len < 0)
-			{	
-				LOGW("failed to recv");
-				break;
-			}
-			else
-			{
-				if(recv_len > 0)
-				{
-					LOGI("### recv_len = %d, buffer = /n%s", recv_len, buffer);
-					printHex(buffer, 255, "recv");
-					close(server_fd);
-				}
-			}
-		}while(recv_len > 0);
-	}
+		//do{
+			read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
+			data_len += read_len;
+			LOGI("read_len = %d", read_len);
+		//}while(read_len > 0);
 
-	return RES_OK;
+
+		if(data_len > 0)
+		{
+			LOGI("### recv_len = %d, buffer = \n%s", data_len, buffer);
+			send(client_fd, "hello", 5, 0);
+		}
+		
+		close(client_fd);
+	}
 	
 exit:
-	LOGW("failure");
 	close(server_fd);
 	return RES_FAIL;
 }
@@ -328,7 +337,7 @@ err_t tcp_client_test(const char* host, const char* port)
 	// 文件描述符，设置等待事件，用select选择等待事件的来临
 	fd_set readfds;
 	struct timeval t;
-	t.tv_sec  = 3;
+	t.tv_sec  = 10;
 	t.tv_usec = 0;
 	
 	FD_ZERO(&readfds);
@@ -338,20 +347,25 @@ err_t tcp_client_test(const char* host, const char* port)
 	// 这里只用于单一socket数据接收，收完则close
 	// 返回值：超时返回0;失败返回-1；成功返回大于0的整数，这个整数表示就绪描述符的数目。
 	int select_result = select(client_fd+1, &readfds, NULL, NULL, &t);
-	
-	if(select_result > 0)
+
+	if(select_result <= 0)
 	{
-		LOGI("client_fd = %d, select result = %d", client_fd, select_result);
+		LOGW("select failure or timeout");
+		goto exit;	
+	}
+	
+	if(FD_ISSET(client_fd, &readfds))
+	{
+		//LOGI("client_fd = %d, select result = %d", client_fd, select_result);
 		do{
 			read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
 			data_len += read_len;
 		}while(read_len > 0);
-		LOGW("date_len = %d, buffer = \n%s", data_len, buffer);
-	}
-	else
-	{
-		LOGW("select failure");
-		goto exit;		
+
+		if(data_len > 0)
+		{
+			LOGW("date_len = %d, buffer = %s", data_len, buffer);			
+		}
 	}
 
 #else // 带外事件
