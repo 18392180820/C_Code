@@ -240,19 +240,15 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 	}
 
 	fd_set readfds;
-	fd_set writefds;
 	fd_set exceptfds;
-	FD_ZERO(&readfds);
-	FD_ZERO(&writefds);
-	FD_ZERO(&exceptfds);
 	struct timeval t;
-	t.tv_sec  = 3;
-	t.tv_usec = 0;
 	int select_result;
 	
 	while(1)
 	{	
 		// 重置缓存信息
+		FD_ZERO(&readfds);
+		FD_ZERO(&exceptfds);
 		t.tv_sec  = 3;
 		t.tv_usec = 0;
 		read_len = 0;
@@ -273,10 +269,10 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 		}	
 		
 		FD_SET(client_fd, &readfds);
-		FD_SET(client_fd, &writefds);
 		FD_SET(client_fd, &exceptfds);
 
-		select_result = select(client_fd+1, &readfds, &writefds, &exceptfds, &t); // 设置等待时间
+		//TODO select_result = select(client_fd+1, &readfds, &writefds, &exceptfds, &t); // 描述符设置多在FD_ISSET出现异常
+		select_result = select(client_fd+1, &readfds, NULL, &exceptfds, &t); // 设置等待时间
 		
 		if(select_result <= 0) // 如果select是无限长等待，这里=0的判断有点多余
 		{
@@ -293,7 +289,7 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 				LOGI("read_len = %d", read_len);
 			//}while(read_len > 0);
 		}
-
+#if 0
 		if(FD_ISSET(client_fd, &writefds))
 		{
 			//do{
@@ -302,7 +298,7 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 				LOGI("read_len = %d", read_len);
 			//}while(read_len > 0);
 		}
-
+#endif
 
 		if(FD_ISSET(client_fd, &exceptfds))
 		{
