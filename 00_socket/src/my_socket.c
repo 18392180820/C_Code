@@ -67,11 +67,13 @@ select	int select(int maxfdp, fd_set *readset, fd_set *writeset, fd_set *excepts
 		超时返回0;失败返回-1；成功返回大于0的整数，这个整数表示就绪描述符的数目。
 
 		文件描述符 
-		int FD_ZERO(int fd,  fd_set *fdset);	//一个 fd_set类型变量的所有位都设为 0
-		int FD_CLR(int fd,   fd_set *fdset);	//清除某个位时可以使用
-		int FD_SET(int fd,   fd_set *fd_set);	//设置变量的某个位置位
-		int FD_ISSET(int fd, fd_set *fdset);	//测试某个位是否被置位
+		int FD_ZERO(int fd,  fd_set *fdset);	//将fdset清零使集合中不含任何fd（一个 fd_set类型变量的所有位都设为 0）
+		int FD_CLR(int fd,   fd_set *fdset);	//将fd从fdset集合中清除（清除某个位时可以使用）
+		int FD_SET(int fd,   fd_set *fdset);	//将fd加入fdset集合（设置变量的某个位置位）
+		int FD_ISSET(int fd, fd_set *fdset);	//检测fd是否在fdset集合中，不在则返回0（测试某个位是否被置位）
 
+setsockopt
+getsockopt
 ***************************************************************/
 #define BUFFER_SIZE (1024)
 
@@ -85,6 +87,7 @@ const char* http_time =
 "Content-Length: 2\r\n\r\n"
 "{}";
 
+const char* send_msg = "this is a test"; 
 
 void atoi_test(void)
 {	
@@ -209,6 +212,7 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 	socklen_t addr_len = sizeof(struct sockaddr);
 	
 	char buffer[BUFFER_SIZE];
+	int send_len = strlen(send_msg);
 
 	// socket -> 创建socket套接字
 	server_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -240,6 +244,7 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 	}
 
 	fd_set readfds;
+	fd_set writefds; // writefds是否有点多余
 	fd_set exceptfds;
 	struct timeval t;
 	int select_result;
@@ -253,7 +258,19 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 		t.tv_usec = 0;
 		read_len = 0;
 		data_len = 0;
-		memset(buffer, 0x00, sizeof(buffer));
+		memset(buffer, 0x00, sizeof(buffer));	
+		
+		FD_SET(server_fd, &readfds);
+		FD_SET(server_fd, &writefds);
+		FD_SET(server_fd, &exceptfds);
+
+		select_result = select(server_fd+1, &readfds, &writefds, &exceptfds, &t); // 设置等待时间
+		
+		if(select_result <= 0) // 如果select是无限长等待，这里=0的判断有点多余
+		{
+			LOGW("select failure or timeout");
+			continue;
+		}
 
 		// 注意accept的最后参数为传入传出参数，accept函数返回的时候、会被重新赋值
 		client_fd = accept(server_fd, (struct sockaddr*)&client_addr, &addr_len);
@@ -265,55 +282,43 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 		}
 		else
 		{ 
-			LOGI("client ip_addr = 0x%02x,  port = %d", ntohs(client_addr.sin_addr.s_addr), ntohs(client_addr.sin_port));
-		}	
+			LOGI("client ip_addr = %s,  port = %d", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+		}		
 		
-		FD_SET(client_fd, &readfds);
-		FD_SET(client_fd, &exceptfds);
-
-		//TODO select_result = select(client_fd+1, &readfds, &writefds, &exceptfds, &t); // 描述符设置多在FD_ISSET出现异常
-		select_result = select(client_fd+1, &readfds, NULL, &exceptfds, &t); // 设置等待时间
-		
-		if(select_result <= 0) // 如果select是无限长等待，这里=0的判断有点多余
-		{
-			LOGW("select failure or timeout");
-			close(client_fd);
-			continue;
+		if(FD_ISSET(server_fd, &readfds))
+		{	
+			//TODO recv如果为阻塞
+			//TODO 如果client端没有关闭socket，则会陷入死循环,
+			//do{
+				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
+				data_len += read_len;
+				LOGI("read_len = %d， data_len =%d", read_len, data_len);
+				LOGI("buffer last = %c", buffer[data_len-1]);
+			//}while(read_len > 0);
 		}
-		
-		if(FD_ISSET(client_fd, &readfds))
+
+		if(FD_ISSET(server_fd, &writefds))
 		{
+			// ...
+		}
+
+		if(FD_ISSET(server_fd, &exceptfds))
+		{	
+			//TODO 如果client端没有关闭socket，用while则会陷入死循环
 			//do{
 				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
 				data_len += read_len;
 				LOGI("read_len = %d", read_len);
 			//}while(read_len > 0);
 		}
-#if 0
-		if(FD_ISSET(client_fd, &writefds))
-		{
-			//do{
-				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
-				data_len += read_len;
-				LOGI("read_len = %d", read_len);
-			//}while(read_len > 0);
-		}
-#endif
-
-		if(FD_ISSET(client_fd, &exceptfds))
-		{
-			//do{
-				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
-				data_len += read_len;
-				LOGI("read_len = %d", read_len);
-			//}while(read_len > 0);
-		}
-
 
 		if(data_len > 0)
 		{
 			LOGI("### recv_len = %d, buffer = \n%s", data_len, buffer);
-			send(client_fd, "hello", 5, 0);
+			if(send_len == send(client_fd, send_msg, send_len, 0))
+			{
+				LOGW("message all sent, message = %s", send_msg);
+			}
 		}
 		
 		close(client_fd);
@@ -399,8 +404,9 @@ err_t tcp_client_test(const char* host, const char* port)
 	}
 	
 	if(FD_ISSET(client_fd, &readfds))
-	{
+	{	
 		//LOGI("client_fd = %d, select result = %d", client_fd, select_result);
+		//TODO 如果server端没有关闭socket，则会陷入死循环
 		do{
 			read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
 			data_len += read_len;
@@ -448,6 +454,7 @@ err_t tcp_client_test(const char* host, const char* port)
 		if(FD_ISSET(client_fd, &readfds))
 		{
 			//LOGI("client_fd = %d, select result = %d", client_fd, select_result);
+			//TODO 如果server端没有关闭socket，则会陷入死循环
 			do{
 				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
 				data_len += read_len;
