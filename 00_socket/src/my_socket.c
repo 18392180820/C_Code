@@ -245,7 +245,7 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 		}	
 		
 		do{
-			recv_len = recv(server_fd, buffer, 1024, 0);
+			recv_len = recv(client_fd, buffer, 1024, 0);
 			if(recv_len < 0)
 			{	
 				LOGW("failed to recv");
@@ -255,7 +255,7 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 			{
 				if(recv_len > 0)
 				{
-					LOGI("### recv_len = %d", recv_len);
+					LOGI("### recv_len = %d, buffer = /n%s", recv_len, buffer);
 					printHex(buffer, 255, "recv");
 					close(server_fd);
 				}
@@ -308,21 +308,6 @@ err_t tcp_client_test(const char* host, const char* port)
 		goto exit;
 	}
 	
-#if 0
-	// bind -> 赋予socket具体地址
-	memset(&client_addr, 0x00, sizeof(client_addr));
-	client_addr.sin_family      = AF_INET;
-	client_addr.sin_port        = htons(atoi(client_port));
-	client_addr.sin_addr.s_addr = inet_addr(client_ip);
-
-	if(bind(client_fd, (struct sockaddr*)&client_addr, sizeof(client_addr)) < 0)
-	{	
-		LOGW("failure");
-		goto exit;
-	}
-	LOGI("client ip_addr = %s,  port = %d", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
-#endif
-	
     if (connect(client_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) 
     {
 		LOGW("connect failure");
@@ -339,7 +324,7 @@ err_t tcp_client_test(const char* host, const char* port)
 	}
 	LOGI("send message sueecss");
 	
-#if 0
+#if 1
 	// 文件描述符，设置等待事件，用select选择等待事件的来临
 	fd_set readfds;
 	struct timeval t;
@@ -392,7 +377,7 @@ err_t tcp_client_test(const char* host, const char* port)
 	
 		FD_SET(client_fd, &readfds);	// 置位
 		FD_SET(client_fd, &exceptfds);
-
+		
 		//每次调用select之前都要重新在read_fds和exception_fds中设置文件描述符connfd，因为事件发生以后，文件描述符集合将被内核修改
 		select_result = select(client_fd+1, &readfds, NULL, &exceptfds, &t);
 		

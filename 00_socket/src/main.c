@@ -1,7 +1,16 @@
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 
-#include "my_socket.h"
 #include "log.h"
 
+#include "my_socket.h"
 
 static void delay_test(void)
 {
@@ -31,9 +40,10 @@ int main(void)
 #if SERVER
 	tcp_server_test("127.123.0.1", "8031");
 #else
-	//tcp_client_test("127.123.0.1", "8031");
-	tcp_client_test("api-test.fotile.com", "8080");
+	tcp_client_test("127.123.0.1", "8031");
+	//tcp_client_test("api-test.fotile.com", "8080");
 	//tcp_client_test("10.49.2.153", "80");
+	//tcp_client_test("0.0.0.0", "5000");
 #endif
 
 #if 0
@@ -50,16 +60,22 @@ int main(void)
 	server_len = sizeof(server_address);
 	bind(server_sockfd, (struct sockaddr *)&server_address, server_len);
 	listen(server_sockfd, 5);
+
+	LOGI("server ip_addr = %s,  port = %d", inet_ntoa(server_address.sin_addr), ntohs(server_address.sin_port));
+	char buf[1024];
 	while(1) {
-		char ch;
+		//char ch;
+		
+		//memset(buf, 0x00, sizeof(buf));
 		printf("server waiting\n");
  
 		client_len = sizeof(client_address);
-		client_sockfd = accept(server_sockfd,
-			(struct sockaddr *)&client_address, &client_len);
-		read(client_sockfd, &ch ,1);
-		ch++;
-		write(client_sockfd, &ch, 1);
+		client_sockfd = accept(server_sockfd,(struct sockaddr *)&client_address, &client_len);
+		//read(client_sockfd, buf ,100);
+		recv(client_sockfd, buf, 1024, 0);
+		LOGI("buff = \n%s", buf);
+		//ch++;
+		//write(client_sockfd, &ch, 1);
 		close(client_sockfd);
 	}
 #endif
