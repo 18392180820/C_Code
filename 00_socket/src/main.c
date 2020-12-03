@@ -21,7 +21,7 @@ static void delay_test(void)
 	}	
 }
 
-#define SERVER (0)
+#define SERVER (1)
 
 int main(void)
 {	

@@ -244,7 +244,7 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 	}
 
 	fd_set readfds;
-	fd_set writefds; // writefds是否有点多余
+	//fd_set writefds; // writefds是否有点多余
 	fd_set exceptfds;
 	struct timeval t;
 	int select_result;
@@ -261,10 +261,10 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 		memset(buffer, 0x00, sizeof(buffer));	
 		
 		FD_SET(server_fd, &readfds);
-		FD_SET(server_fd, &writefds);
+		//FD_SET(server_fd, &writefds);
 		FD_SET(server_fd, &exceptfds);
 
-		select_result = select(server_fd+1, &readfds, &writefds, &exceptfds, &t); // 设置等待时间
+		select_result = select(server_fd+1, &readfds, NULL, &exceptfds, &t); // 设置等待时间
 		
 		if(select_result <= 0) // 如果select是无限长等待，这里=0的判断有点多余
 		{
@@ -296,20 +296,20 @@ err_t tcp_server_test(const char* server_ip, const char* server_port)
 				LOGI("buffer last = %c", buffer[data_len-1]);
 			//}while(read_len > 0);
 		}
-
+#if 0
 		if(FD_ISSET(server_fd, &writefds))
 		{
-			// ...
+			LOGE("what's wrong");
 		}
-
+#endif
 		if(FD_ISSET(server_fd, &exceptfds))
 		{	
 			//TODO 如果client端没有关闭socket，用while则会陷入死循环
-			//do{
+			do{
 				read_len = recv(client_fd, buffer+data_len, BUFFER_SIZE-data_len, 0);
 				data_len += read_len;
 				LOGI("read_len = %d", read_len);
-			//}while(read_len > 0);
+			}while(read_len > 0);
 		}
 
 		if(data_len > 0)
@@ -416,6 +416,10 @@ err_t tcp_client_test(const char* host, const char* port)
 		{
 			LOGW("date_len = %d, buffer = %s", data_len, buffer);			
 		}
+	}
+	else
+	{
+		LOGE("no message from server");	
 	}
 
 #else // 带外事件
