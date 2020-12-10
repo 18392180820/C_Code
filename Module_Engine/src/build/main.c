@@ -21,6 +21,82 @@
 
 static const char* update = "{\"appUpdateFirmware\":{\"version\":\"FIKS-WA104\",\"md5\":\"1567C30D0F798918CC55968B2B0C7A9A\",\"urlLen\":\"150\",\"url\":\"http://fotile-ota.oss-cn-hangzhou.aliyuncs.com/Z-%E8%91%A3%E6%98%8E%E6%98%8A%E4%B8%B4%E6%97%B6/%E5%BD%92%E4%B8%80%E5%8C%96_C2T/FIKS-WA104.bin\"}}";
 static const char* version = "{\"queryDevVersionInfo\":\"NULL\"}";
+static const char* schema_test = 
+"{\
+\"AttributeList\": [\
+{\
+\"attr\": \"PowerSwitchAll\",\
+\"cmd\": {\
+\"offset\": 0,\
+\"len\": 1,\
+\"bit_index\": 0\
+},\
+\"status\": {\
+\"offset\": 0,\
+\"len\": 1\
+}\
+},\
+{\
+\"attr\": \"RecordState\",\
+\"status\": {\
+\"offset\": 44,\
+\"len\": 1\
+}\
+}\
+],\
+\"version\": \"1.0.4\",\
+\"header\": {\
+\"cmd\": {\
+\"head\": {\
+\"offset\": 0,\
+\"len\": 2,\
+\"default\": 62709\
+},\
+\"len\": {\
+\"offset\": 2,\
+\"len\": 2\
+},\
+\"type\": {\
+\"offset\": 4,\
+\"len\": 2,\
+\"default\": 4096\
+},\
+\"cmd\": {\
+\"offset\": 6,\
+\"len\": 1,\
+\"default\": 49\
+},\
+\"stat\": {\
+\"offset\": 7,\
+\"len\": 1,\
+\"default\": 1\
+},\
+\"flags\": {\
+\"offset\": 8,\
+\"len\": 2,\
+\"default\": 0\
+},\
+\"payloadBitFlag\": {\
+\"offset\": 10,\
+\"len\": 2\
+},\
+\"payloadData\": {\
+\"offset\": 12,\
+\"len\": 30\
+},\
+\"crc\": {\
+\"offset\": 42,\
+\"len\": 2\
+}\
+},\
+\"status\": {\
+\"payloadData\": {\
+\"offset\": 10,\
+\"len\": 45\
+}\
+}\
+}\
+}";
 
 void print_hex(const unsigned char* hex, const int len)
 {
@@ -314,7 +390,8 @@ int main()
 	printf("convert result= \n%s\n", obj->string);
 	//printf("convert result= \n%s\n", obj->string);
 #endif
-	
+
+	printf("schema = \n%s\n", schema_test);
 	
 	return 1;
 }
