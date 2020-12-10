@@ -1,6 +1,10 @@
-### makefile规则：
-### target ... : prerequisites ... 
-### 	command 
+###	targets : prerequisites 
+###		command 
+### 	... 
+###或是这样： 
+###	targets : prerequisites ; command 
+###		command 
+### 	... 
 
 
 OBJ = main.o log.o
@@ -12,4 +16,4 @@ $(OBJ):log.h
 
 .PHONY:clean
 clean:
-	rm test $(OBJ)
+	- rm test *.o *.out 
