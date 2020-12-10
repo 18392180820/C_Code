@@ -16,4 +16,4 @@ $(OBJ):log.h
 
 .PHONY:clean
 clean:
-	- rm test *.o *.out 
+	rm test *.o *.out 
