@@ -14,6 +14,12 @@ test:$(OBJ)
 	
 $(OBJ):log.h
 
-.PHONY:clean
-clean:
-	rm test *.o *.out 
+.PHONY: clean cleanobj cleanout
+clean: cleanobj cleanout
+	rm test
+
+cleanobj:
+	rm *.o
+
+cleanout:
+	rm *.out
