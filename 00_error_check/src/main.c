@@ -26,8 +26,6 @@ int main(void)
 {	
 #if 1
 	find_mode_test();
-
-
 #else
 	LOG_I("sizeof = %ld", sizeof(uint32_t));
 	LOG_I("sizeof = %ld", sizeof(uint16_t));
