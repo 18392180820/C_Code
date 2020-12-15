@@ -35,8 +35,16 @@ void _error_check_failed(int rc, const char *file, int line, const char *functio
 
 #define CHECK_OK	(0)
 #define CHECK_ERROR	(-1)
-
+#define IN			// 表示入参
+#define OUT			// 表示出参
 #define LOG_LEVEL_CONFIG	(5)
+
+typedef unsigned int uint32_t;
+typedef unsigned short uint16_t;
+typedef unsigned char uint8_t;
+typedef int int32_t;
+typedef short int16_t;
+
 
 typedef enum {
     LEVLE_LOG_NONE = 0,   /*!< No log output */
