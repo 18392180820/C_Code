@@ -3,12 +3,12 @@
 
 static const char* TAG = "main";
 
-void log_put(void)
+void LOGput(void)
 {
-	LOG_I("###info");
-	LOG_W("###warn");
-	LOG_E("###error");
-	//LOG_N("WOW");
+	LOGI("###info");
+	LOGW("###warn");
+	LOGE("###error");
+	//LOGN("WOW");
 }
 
 
@@ -24,28 +24,28 @@ void show(int16_t* buf, uint16_t len)
 
 int main(void)
 {	
-#if 1
+#if 0
 	find_mode_test();
 #else
-	LOG_I("sizeof = %ld", sizeof(uint32_t));
-	LOG_I("sizeof = %ld", sizeof(uint16_t));
-	LOG_I("sizeof = %ld", sizeof(uint8_t));
-	LOG_I("sizeof = %ld", sizeof(int32_t));
-	LOG_I("sizeof = %ld", sizeof(int16_t));
-	LOG_I("sizeof = %ld", sizeof(int8_t));
+	LOGI("sizeof = %ld", sizeof(uint32_t));
+	LOGI("sizeof = %ld", sizeof(uint16_t));
+	LOGI("sizeof = %ld", sizeof(uint8_t));
+	LOGI("sizeof = %ld", sizeof(int32_t));
+	LOGI("sizeof = %ld", sizeof(int16_t));
+	LOGI("sizeof = %ld", sizeof(int8_t));
 
 	int16_t dd[20];
-	SSS(dd);
-	LOG_I("### sizeof = %ld", sizeof(dd));
 	
-	LOG_I("info");
-	LOG_W("warn");
-	LOG_E("error");
+	LOGI("### sizeof = %ld", sizeof(dd));
+	
+	LOGI("info");
+	LOGW("warn");
+	LOGE("error");
 
 
 	if(-1)
 	{
-		LOG_I("HHHHHH");
+		LOGI("HHHHHH");
 	}
 
 	printf("%d\n", (1>2));

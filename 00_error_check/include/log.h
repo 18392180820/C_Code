@@ -83,9 +83,9 @@ typedef enum {
 		if(level <= LOG_LEVEL_CONFIG) LOG_OUTPUT(level, format, ##__VA_ARGS__);\
 		}while(0)
 
-#define LOG_I(format, ...) LOG_LEVEL(LEVLE_LOG_INFO,  format, ##__VA_ARGS__)
-#define LOG_W(format, ...) LOG_LEVEL(LEVLE_LOG_WARN,  format, ##__VA_ARGS__)
-#define LOG_E(format, ...) LOG_LEVEL(LEVLE_LOG_ERROR, format, ##__VA_ARGS__)
+#define LOGI(format, ...) LOG_LEVEL(LEVLE_LOG_INFO,  format, ##__VA_ARGS__)
+#define LOGW(format, ...) LOG_LEVEL(LEVLE_LOG_WARN,  format, ##__VA_ARGS__)
+#define LOGE(format, ...) LOG_LEVEL(LEVLE_LOG_ERROR, format, ##__VA_ARGS__)
 
 //#define LOG_N(format, ...) LOG_LEVEL(23, format, ##__VA_ARGS__)
 

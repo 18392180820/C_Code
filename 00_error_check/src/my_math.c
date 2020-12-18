@@ -113,10 +113,10 @@ int16_t find_mode(int16_t* data, uint16_t len)
 	}
 	
 #if 0	// log 
-	LOG_I("value_num = %d", value_num);	
+	LOGI("value_num = %d", value_num);	
 	for(i=0;i<value_num;i++)
 	{
-		LOG_I("value = %d, count = %d", value[i], count[i]);
+		LOGI("value = %d, count = %d", value[i], count[i]);
 	}
 #endif
 
@@ -131,7 +131,7 @@ int16_t find_mode(int16_t* data, uint16_t len)
 		}
 	}
 
-	//LOG_I("mode = %d", mode);
+	//LOGI("mode = %d", mode);
 	return (mode/mode_num);		// 之前的数据处理、能确认mode_num不为0
 }
 
@@ -149,7 +149,7 @@ uint32_t cal_variance(int16_t* data, uint16_t len)
 	
 	avg = cal_average(data, len);
 
-	LOG_I("avg value = %d", avg);
+	LOGI("avg value = %d", avg);
 	for(i=0;i<len;i++)
 	{
 		//var += pow((data[i]-avg),2);
@@ -167,7 +167,7 @@ void find_mode_test(void)
 	//int16_t  array[20] = {22,11,3,4,5,7,2,3,4,10,1,3,4,5,3,22,22,4,22,20};
 	int16_t  array[20] = {1,2,3,4,5,6,7,8,9,10, 21,20,19,18,17,16,15,14,13,12};
 	//int16_t  array[20] = {1,2,3,4,5,6,7,8,9,10, 1,2,3,4,5,6,7,8,9,10};
-	//LOG_I("mode value = %d", find_mode(array, 20));
-	LOG_I("var value = %d", cal_variance(array, 20)+5);
+	//LOGI("mode value = %d", find_mode(array, 20));
+	LOGI("var value = %d", cal_variance(array, 20)+5);
 }
 #endif
